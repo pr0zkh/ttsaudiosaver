@@ -1,4 +1,4 @@
-package org.ttsaudiosaver.core;
+package org.ttsaudiosaver.web.core;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

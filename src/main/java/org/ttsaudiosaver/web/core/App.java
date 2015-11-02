@@ -1,4 +1,4 @@
-package org.ttsaudiosaver.core;
+package org.ttsaudiosaver.web.core;
 
 /**
  * Hello world!
