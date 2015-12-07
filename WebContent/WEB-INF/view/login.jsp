@@ -5,12 +5,13 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<title>Insert title here</title>
+		<link href="/css/styles.css" rel="stylesheet">
 	</head>
 	<body>
-		<jsp:include page="/view/common/header.jspf"/>
+		<jsp:include page="/WEB-INF/view/common/header.jsp"/>
 		
 		<div class="content">
-			<div class="fb-login">
+			<div class="fb-login test">
 				Here will be Faceboock login widget
 				<button class="fb-login">FACEBOOCK LOGIN WHO NEEDS IT????</button>
 			</div>
@@ -55,6 +56,6 @@
 			</div>
 		</div>
 
-		<jsp:include page="/view/common/footer.jspf"/>
+		<jsp:include page="/WEB-INF/view/common/footer.jsp"/>
 	</body>
 </html>
