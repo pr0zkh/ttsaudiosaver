@@ -16,11 +16,11 @@ public class LoginController {
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String login(Model model) {
-		return null;
+		return "redirect:index";
 	}
 	
 	@RequestMapping(value = "/logout", method = RequestMethod.POST)
 	public String logout(Model model) {
-		return null;
+		return "redirect:index";
 	}
 }

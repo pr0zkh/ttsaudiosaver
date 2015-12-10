@@ -1,15 +1,20 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@include file="/WEB-INF/view/common/taglibs.jspf" %>
 <!DOCTYPE html>
 <html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
-	<%@include file="/WEB-INF/view/common/header.jsp" %>
-	<c:set var="helloWorldVar" value="Hell, world!" />
-	${helloWorldVar}
-	zzz
-</body>
+	<head>
+		<%@include file="/WEB-INF/view/common/head.jspf" %>
+		<title>Text To Speech</title>
+	</head>
+	<body>
+		<jsp:include page="/WEB-INF/view/common/header.jsp"/>
+		<div class=container>
+			<div class="row tall">
+				<select class="lang">
+					<option>ru</option>
+					<option>en</option>
+				</select>
+			</div>
+		</div>
+		<jsp:include page="/WEB-INF/view/common/footer.jsp"/>
+	</body>
 </html>
