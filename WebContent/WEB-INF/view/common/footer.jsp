@@ -1,3 +1,5 @@
-<div class="footer">
-	This is footer!
-</div>
+<footer class="footer">
+	<div class="container">
+		<p class="text-muted">This is footer</p>
+	</div>
+</footer>
