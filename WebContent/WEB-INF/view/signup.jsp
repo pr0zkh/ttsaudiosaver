@@ -7,42 +7,34 @@
 	</head>
 	<body>
 		<jsp:include page="/WEB-INF/view/common/header.jsp"/>
-		<div class=container>
-			<div class="signup-form">
-				<form id="signup-form" method="post" action="/signup" novalidate>
-					<div class="row">
-						<label for="username">Username:</label>
-						<input id="username" class="input validate" name="username" type="text"/>
-					</div>
-					<div class="row">
-						<label for="email">Email:</label>
-						<input id="email" class="input validate" name="email" type="text"/>
-					</div>
-					<div class="row">
-						<label for="password">Password:</label>
-						<input id="password" class="input validate" name="password" type="password"/>
-						<a href="/forgot-password">
-							<span class="action">Forgot password?</span>
-						</a>
-					</div>
-					<div class="row">
-						<label for="confirm-password">Confirm password:</label>
-						<input id="confirm-password" class="input validate" name="confirm-password" type="password"/>
-					</div>
-					<div class="row">
-						<div class="inline">
-							<a href="/login">
-								Login
-							</a>
-							<input id="signup-submit" name="signup-submit" class="button submit" type="submit" value="Create an account" /> 
+			<div class="container">
+				<div class="signup">
+					<form id="signup-form" class="signup-form" method="post" action="/sign-up" novalidate>
+						<h2 class="title">Sign Up</h2>
+						<a class="btn btn-block btn-social btn-facebook" href="#">
+					   		<span class="fa fa-facebook"></span> Sign up with Facebook
+					  	</a>
+						<label for="username" class="sr-only">Username:</label>
+						<input id="username" class="form-control validate" name="username" type="text" placeholder="Username" autofocus>
+						<label for="email" class="sr-only">Email:</label>
+						<input id="email" class="form-control validate" name="email" type="text" placeholder="Email address">
+						<label for="password" class="sr-only">Password:</label>
+						<input id="password" class="form-control validate" name="password" type="password" placeholder="Password"/>
+						<label for="confirm-password" class="sr-only">Password:</label>
+						<input id="confirm-password" class="form-control validate" name="confirm-password" type="password" placeholder="Confirm password"/>
+						<div>
+							<div class="pull-left">
+								<a href="/login">
+									Sign In
+								</a>
+							</div>
+							<div class="pull-right">
+								<input id="signup-submit" name="signup-submit" class="btn btn-primary" type="submit" value="Sign Up" />
+							</div> 
 						</div>
-					</div>
-				</form>
+					</form>
+				</div>
 			</div>
-			<div class="fb-signup">
-				Here will be facebook widget for registration
-			</div>			
-		</div>
 		<jsp:include page="/WEB-INF/view/common/footer.jsp"/>
 	</body>
 </html>

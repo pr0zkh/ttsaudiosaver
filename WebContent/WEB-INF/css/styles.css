@@ -38,6 +38,56 @@ body > .container {
 	display: block;
 }
 
+.login, .signup, .forgot-password {
+	margin-top: 15%;
+}
+
+.login-form, .signup-form {
+	max-width: 330px;
+    padding: 15px;
+    margin: 0 auto;
+}
+
+.forgot-password-form {
+	max-width: 510px;
+    padding: 15px;
+    margin: 0 auto;
+}
+
+.login-form a, .signup-form a {
+	margin-right: 15px;
+	display: block;
+}
+
+.login-form .btn-facebook, .signup-form .btn-facebook {
+	margin-bottom: 5px;
+}
+
+.login-form .title, .signup-form .title, .forgot-password-form .title {
+	color: #23527c;
+}
+
+.login-form .btn, .signup-form .btn, .forgot-password-form .btn {
+	padding: 6px 40px;
+}
+
+.form-control {
+	margin-bottom: 5px;
+}
+
+.forgot-password-form h4 {
+	font-weight: 100;
+	color: #828282;
+	font-size: 1.5rem;
+}
+
+.page-header h1 {
+	color: #23527c;
+}
+
+.lang-selector-msg {
+	margin-left: 170px;
+}
 .tall {
 	min-height: 2000px;
 }

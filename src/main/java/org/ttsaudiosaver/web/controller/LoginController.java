@@ -8,19 +8,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class LoginController {
 	
-	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	@RequestMapping(value = UrlTemplate.LOGIN, method = RequestMethod.GET)
 	public String getLoginPage(Model model) {
 		System.out.println("Inside getLoginPage method");
-		return "login";
+		return ViewMap.LOGIN.getView();
 	}
 	
-	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	@RequestMapping(value = UrlTemplate.LOGIN, method = RequestMethod.POST)
 	public String login(Model model) {
-		return "redirect:index";
+		return "redirect:" + ViewMap.INDEX.getView();
 	}
 	
-	@RequestMapping(value = "/logout", method = RequestMethod.POST)
+	@RequestMapping(value = UrlTemplate.LOGOUT, method = RequestMethod.POST)
 	public String logout(Model model) {
-		return "redirect:index";
+		return "redirect:" + ViewMap.INDEX.getView();
 	}
 }

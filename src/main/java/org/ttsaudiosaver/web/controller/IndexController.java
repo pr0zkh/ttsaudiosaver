@@ -15,8 +15,8 @@ public class IndexController {
 		return "hello";
 	}
 	
-	@RequestMapping(value = "/", method = RequestMethod.GET)
+	@RequestMapping(value = UrlTemplate.INDEX, method = RequestMethod.GET)
 	public String getIndexPage(Model model) {
-		return "index";
+		return ViewMap.INDEX.getView();
 	}
 }
