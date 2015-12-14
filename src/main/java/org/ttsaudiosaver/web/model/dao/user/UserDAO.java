@@ -10,5 +10,6 @@ public interface UserDAO {
 	List<User> findAllUsers();
 	void deleteUserById(String userId);
 	User findUserById(String userId);
+	User findUserByEmail(String email);
 	void updateUser(User user);
 }

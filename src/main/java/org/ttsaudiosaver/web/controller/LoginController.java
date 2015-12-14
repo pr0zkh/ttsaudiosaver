@@ -1,26 +1,63 @@
 package org.ttsaudiosaver.web.controller;
 
+import javax.servlet.http.HttpSession;
+
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.ttsaudiosaver.web.model.User;
+import org.ttsaudiosaver.web.service.LoginService;
+import org.ttsaudiosaver.web.service.LoginService.LoginFailedException;
+import org.ttsaudiosaver.web.service.LoginService.UserNotFoundException;
 
 @Controller
 public class LoginController {
 	
+	private static final Logger logger = Logger.getLogger(LoginController.class); 
+	
+	@Autowired
+	private LoginService loginService;
+	
 	@RequestMapping(value = UrlTemplate.LOGIN, method = RequestMethod.GET)
 	public String getLoginPage(Model model) {
-		System.out.println("Inside getLoginPage method");
+		logger.info("Inside getLoginPage method");
 		return ViewMap.LOGIN.getView();
 	}
 	
 	@RequestMapping(value = UrlTemplate.LOGIN, method = RequestMethod.POST)
-	public String login(Model model) {
-		return "redirect:" + ViewMap.INDEX.getView();
+	public String login(@RequestParam("email") String email,
+			@RequestParam("password") String password,
+			HttpSession session,
+			Model model) {
+		logger.info("Inside login method");
+		try {
+			User user = loginService.login(email, password);
+			session.setAttribute("user", user);
+			return "redirect:" + UrlTemplate.INDEX;
+		} catch (UserNotFoundException e) {
+			model.addAttribute("error", "Could not find user with email " + email + ". Please, try again.");
+		} catch (LoginFailedException e) {
+			model.addAttribute("error", "Login failed. Please, try again or contact our technical support.");
+		}
+		model.addAttribute("email", email);
+		return ViewMap.LOGIN.getView();
 	}
 	
-	@RequestMapping(value = UrlTemplate.LOGOUT, method = RequestMethod.POST)
-	public String logout(Model model) {
-		return "redirect:" + ViewMap.INDEX.getView();
+	@RequestMapping(value = UrlTemplate.LOGOUT, method = RequestMethod.GET)
+	public String logout(HttpSession session) {
+		session.removeAttribute("user");
+		return "redirect:" + UrlTemplate.INDEX;
+	}
+
+	public LoginService getLoginService() {
+		return loginService;
+	}
+
+	public void setLoginService(LoginService loginService) {
+		this.loginService = loginService;
 	}
 }

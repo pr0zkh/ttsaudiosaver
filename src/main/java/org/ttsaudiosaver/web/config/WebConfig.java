@@ -4,6 +4,7 @@ import java.util.Properties;
 
 import javax.sql.DataSource;
 
+import org.apache.log4j.Logger;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -23,6 +24,8 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 @EnableTransactionManagement
 @ComponentScan(basePackages = "org.ttsaudiosaver.web")
 public class WebConfig extends WebMvcConfigurerAdapter {
+	
+	private static final Logger logger = Logger.getLogger(WebConfig.class);
 	
 	private static final String VIEW_RESOLVER_PREFIX = "/WEB-INF/view/";
 	private static final String VIEW_RESLVER_SUFFIX = ".jsp";
@@ -56,7 +59,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 		registry.addResourceHandler(ASSETS_RESOURCE_URI_PATTERN).addResourceLocations(ASSETS_RESOURCE_LOCATION);
 	}
 	
-	@Bean
+	@Bean(name = "sessionFactory")
 	public LocalSessionFactoryBean sessionFactory() {
 		LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
 		sessionFactory.setDataSource(dataSource());
@@ -86,6 +89,9 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     @Bean
     @Autowired
     public HibernateTransactionManager transactionManager(SessionFactory sessionFactory) {
+    	logger.info("********************************************************************");
+    	logger.info("Inside transactionManager method - sessionFactory:" + sessionFactory);
+    	logger.info("********************************************************************");
         HibernateTransactionManager txManager = new HibernateTransactionManager();
         txManager.setSessionFactory(sessionFactory);
         return txManager;

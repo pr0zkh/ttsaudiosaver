@@ -2,12 +2,12 @@
 
 <ul class="nav navbar-nav navbar-right">
 	<c:choose>
-		<c:when test="${user.isLoggedIn}">
+		<c:when test="${not empty user}">
 			<li id="account">
-				<a href="#">Account Details</a>
+				<a href="/user-details">Hi, ${user.username}!</a>
 			</li>
 			<li id="logout">
-				<a href="#">Logout</a>
+				<a href="/logout">Logout</a>
 			</li>
 		</c:when>
 		<c:otherwise>

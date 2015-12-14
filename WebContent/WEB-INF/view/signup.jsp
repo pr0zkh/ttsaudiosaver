@@ -9,7 +9,7 @@
 		<jsp:include page="/WEB-INF/view/common/header.jsp"/>
 			<div class="container">
 				<div class="signup">
-					<form id="signup-form" class="signup-form" method="post" action="/sign-up" novalidate>
+					<form id="signup-form" class="signup-form" method="post" action="/signup" novalidate>
 						<h2 class="title">Sign Up</h2>
 						<a class="btn btn-block btn-social btn-facebook" href="#">
 					   		<span class="fa fa-facebook"></span> Sign up with Facebook
