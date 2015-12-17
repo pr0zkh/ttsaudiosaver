@@ -43,8 +43,8 @@ body > .container {
 }
 
 .login-form, .signup-form {
-	max-width: 330px;
-    padding: 15px;
+	max-width: 390px;
+    padding: 15px 45px;
     margin: 0 auto;
 }
 
@@ -61,6 +61,19 @@ body > .container {
 
 .login-form .btn-facebook, .signup-form .btn-facebook {
 	margin-bottom: 5px;
+}
+
+.login-form div.fb-login {
+	margin: 0 auto;
+	width: 365px;
+}
+
+.login-form div.fb-login .spinner > div {
+	background-color: #3b5998;
+}
+
+.login-form div.fb-login .btn-facebook {
+	width: 300px;
 }
 
 .login-form .title, .signup-form .title, .forgot-password-form .title {

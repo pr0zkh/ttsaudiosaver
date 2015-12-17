@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.ttsaudiosaver.web.SessionAttributes;
 import org.ttsaudiosaver.web.model.User;
 import org.ttsaudiosaver.web.model.dao.user.UserDAO;
 import org.ttsaudiosaver.web.service.RegistrationService;
@@ -43,7 +44,7 @@ public class SignupController {
 		user.setPassword(password);
 		user.setEmail(email);
 		user = registrationService.register(user);
-		session.setAttribute("user", user);
+		session.setAttribute(SessionAttributes.USER, user);
 		return "redirect:" + UrlTemplate.INDEX;
 	}
 

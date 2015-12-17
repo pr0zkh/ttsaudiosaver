@@ -7,6 +7,7 @@ public class UrlTemplate {
 	public static final String LOGIN = "/login";
 	public static final String LOGOUT = "/logout";
 	public static final String INDEX = "/";
-	public static final String USER_DETAILS = "user-details";
+	public static final String USER_DETAILS = "/user-details";
+	public static final String FACEBOOK_LOGIN = "/fb-login";
 
 }

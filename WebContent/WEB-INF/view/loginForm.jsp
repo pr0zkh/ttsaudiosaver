@@ -2,12 +2,20 @@
 
 <div class=container>
 	<div class="login">
-		<div class="loader">Loading...</div>
 		<form id="login-form" class="login-form" method="post" action="/login" novalidate>
 			<h2 class="title">Log In</h2>
-			<a class="btn btn-block btn-social btn-facebook" id="fb-login">
-		   		<span class="fa fa-facebook"></span> Sign in with Facebook
-		  	</a>
+			<div class="row fb-login">
+				<a class="btn btn-block btn-social btn-facebook pull-left" id="fb-login" data-toggle="modal" data-target="#fs-loader">
+			   		<span class="fa fa-facebook"></span> Sign in with Facebook
+			  	</a>
+			  	<div class="pull-right spinner hidden">
+					<div class="rect1"></div>
+					<div class="rect2"></div>
+					<div class="rect3"></div>
+					<div class="rect4"></div>
+					<div class="rect5"></div>
+				</div>
+			</div>
 			<label for="email" class="sr-only">Email:</label>
 			<input id="email" class="form-control validate" name="email" type="text" placeholder="Email address" autofocus>
 			<label for="password" class="sr-only">Password:</label>

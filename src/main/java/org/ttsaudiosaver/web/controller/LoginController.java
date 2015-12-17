@@ -9,6 +9,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+import org.ttsaudiosaver.web.SessionAttributes;
 import org.ttsaudiosaver.web.model.User;
 import org.ttsaudiosaver.web.service.LoginService;
 import org.ttsaudiosaver.web.service.LoginService.LoginFailedException;
@@ -36,7 +39,7 @@ public class LoginController {
 		logger.info("Inside login method");
 		try {
 			User user = loginService.login(email, password);
-			session.setAttribute("user", user);
+			session.setAttribute(SessionAttributes.USER, user);
 			return "redirect:" + UrlTemplate.INDEX;
 		} catch (UserNotFoundException e) {
 			model.addAttribute("error", "Could not find user with email " + email + ". Please, try again.");
@@ -47,9 +50,14 @@ public class LoginController {
 		return ViewMap.LOGIN.getView();
 	}
 	
+	@RequestMapping(value = UrlTemplate.FACEBOOK_LOGIN, method = RequestMethod.POST)
+	public @ResponseBody String fbLogin() {
+		return "success";
+	}
+	
 	@RequestMapping(value = UrlTemplate.LOGOUT, method = RequestMethod.GET)
 	public String logout(HttpSession session) {
-		session.removeAttribute("user");
+		session.removeAttribute(SessionAttributes.USER);
 		return "redirect:" + UrlTemplate.INDEX;
 	}
 

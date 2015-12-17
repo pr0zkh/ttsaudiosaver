@@ -1,68 +1,51 @@
-.loader {
+.spinner {
+  width: 50px;
+  height: 40px;
+  text-align: center;
   font-size: 10px;
-  margin: 100px auto;
-  width: 1em;
-  height: 1em;
-  border-radius: 50%;
-  position: relative;
-  text-indent: -9999em;
-  -webkit-animation: load4 1.3s infinite linear;
-  animation: load4 1.3s infinite linear;
-  -webkit-transform: translateZ(0);
-  -ms-transform: translateZ(0);
-  transform: translateZ(0);
 }
-@-webkit-keyframes load4 {
-  0%,
-  100% {
-    box-shadow: 0 -3em 0 0.2em #cfcfcf, 2em -2em 0 0em #cfcfcf, 3em 0 0 -1em #cfcfcf, 2em 2em 0 -1em #cfcfcf, 0 3em 0 -1em #cfcfcf, -2em 2em 0 -1em #cfcfcf, -3em 0 0 -1em #cfcfcf, -2em -2em 0 0 #cfcfcf;
-  }
-  12.5% {
-    box-shadow: 0 -3em 0 0 #cfcfcf, 2em -2em 0 0.2em #cfcfcf, 3em 0 0 0 #cfcfcf, 2em 2em 0 -1em #cfcfcf, 0 3em 0 -1em #cfcfcf, -2em 2em 0 -1em #cfcfcf, -3em 0 0 -1em #cfcfcf, -2em -2em 0 -1em #cfcfcf;
-  }
-  25% {
-    box-shadow: 0 -3em 0 -0.5em #cfcfcf, 2em -2em 0 0 #cfcfcf, 3em 0 0 0.2em #cfcfcf, 2em 2em 0 0 #cfcfcf, 0 3em 0 -1em #cfcfcf, -2em 2em 0 -1em #cfcfcf, -3em 0 0 -1em #cfcfcf, -2em -2em 0 -1em #cfcfcf;
-  }
-  37.5% {
-    box-shadow: 0 -3em 0 -1em #cfcfcf, 2em -2em 0 -1em #cfcfcf, 3em 0em 0 0 #cfcfcf, 2em 2em 0 0.2em #cfcfcf, 0 3em 0 0em #cfcfcf, -2em 2em 0 -1em #cfcfcf, -3em 0em 0 -1em #cfcfcf, -2em -2em 0 -1em #cfcfcf;
-  }
-  50% {
-    box-shadow: 0 -3em 0 -1em #cfcfcf, 2em -2em 0 -1em #cfcfcf, 3em 0 0 -1em #cfcfcf, 2em 2em 0 0em #cfcfcf, 0 3em 0 0.2em #cfcfcf, -2em 2em 0 0 #cfcfcf, -3em 0em 0 -1em #cfcfcf, -2em -2em 0 -1em #cfcfcf;
-  }
-  62.5% {
-    box-shadow: 0 -3em 0 -1em #cfcfcf, 2em -2em 0 -1em #cfcfcf, 3em 0 0 -1em #cfcfcf, 2em 2em 0 -1em #cfcfcf, 0 3em 0 0 #cfcfcf, -2em 2em 0 0.2em #cfcfcf, -3em 0 0 0 #cfcfcf, -2em -2em 0 -1em #cfcfcf;
-  }
-  75% {
-    box-shadow: 0em -3em 0 -1em #cfcfcf, 2em -2em 0 -1em #cfcfcf, 3em 0em 0 -1em #cfcfcf, 2em 2em 0 -1em #cfcfcf, 0 3em 0 -1em #cfcfcf, -2em 2em 0 0 #cfcfcf, -3em 0em 0 0.2em #cfcfcf, -2em -2em 0 0 #cfcfcf;
-  }
-  87.5% {
-    box-shadow: 0em -3em 0 0 #cfcfcf, 2em -2em 0 -1em #cfcfcf, 3em 0 0 -1em #cfcfcf, 2em 2em 0 -1em #cfcfcf, 0 3em 0 -1em #cfcfcf, -2em 2em 0 0 #cfcfcf, -3em 0em 0 0 #cfcfcf, -2em -2em 0 0.2em #cfcfcf;
-  }
+
+.spinner > div {
+  background-color: #333;
+  height: 100%;
+  width: 6px;
+  display: inline-block;
+  
+  -webkit-animation: sk-stretchdelay 1.2s infinite ease-in-out;
+  animation: sk-stretchdelay 1.2s infinite ease-in-out;
 }
-@keyframes load4 {
-  0%,
-  100% {
-    box-shadow: 0 -3em 0 0.2em #cfcfcf, 2em -2em 0 0em #cfcfcf, 3em 0 0 -1em #cfcfcf, 2em 2em 0 -1em #cfcfcf, 0 3em 0 -1em #cfcfcf, -2em 2em 0 -1em #cfcfcf, -3em 0 0 -1em #cfcfcf, -2em -2em 0 0 #cfcfcf;
-  }
-  12.5% {
-    box-shadow: 0 -3em 0 0 #cfcfcf, 2em -2em 0 0.2em #cfcfcf, 3em 0 0 0 #cfcfcf, 2em 2em 0 -1em #cfcfcf, 0 3em 0 -1em #cfcfcf, -2em 2em 0 -1em #cfcfcf, -3em 0 0 -1em #cfcfcf, -2em -2em 0 -1em #cfcfcf;
-  }
-  25% {
-    box-shadow: 0 -3em 0 -0.5em #cfcfcf, 2em -2em 0 0 #cfcfcf, 3em 0 0 0.2em #cfcfcf, 2em 2em 0 0 #cfcfcf, 0 3em 0 -1em #cfcfcf, -2em 2em 0 -1em #cfcfcf, -3em 0 0 -1em #cfcfcf, -2em -2em 0 -1em #cfcfcf;
-  }
-  37.5% {
-    box-shadow: 0 -3em 0 -1em #cfcfcf, 2em -2em 0 -1em #cfcfcf, 3em 0em 0 0 #cfcfcf, 2em 2em 0 0.2em #cfcfcf, 0 3em 0 0em #cfcfcf, -2em 2em 0 -1em #cfcfcf, -3em 0em 0 -1em #cfcfcf, -2em -2em 0 -1em #cfcfcf;
-  }
-  50% {
-    box-shadow: 0 -3em 0 -1em #cfcfcf, 2em -2em 0 -1em #cfcfcf, 3em 0 0 -1em #cfcfcf, 2em 2em 0 0em #cfcfcf, 0 3em 0 0.2em #cfcfcf, -2em 2em 0 0 #cfcfcf, -3em 0em 0 -1em #cfcfcf, -2em -2em 0 -1em #cfcfcf;
-  }
-  62.5% {
-    box-shadow: 0 -3em 0 -1em #cfcfcf, 2em -2em 0 -1em #cfcfcf, 3em 0 0 -1em #cfcfcf, 2em 2em 0 -1em #cfcfcf, 0 3em 0 0 #cfcfcf, -2em 2em 0 0.2em #cfcfcf, -3em 0 0 0 #cfcfcf, -2em -2em 0 -1em #cfcfcf;
-  }
-  75% {
-    box-shadow: 0em -3em 0 -1em #cfcfcf, 2em -2em 0 -1em #cfcfcf, 3em 0em 0 -1em #cfcfcf, 2em 2em 0 -1em #cfcfcf, 0 3em 0 -1em #cfcfcf, -2em 2em 0 0 #cfcfcf, -3em 0em 0 0.2em #cfcfcf, -2em -2em 0 0 #cfcfcf;
-  }
-  87.5% {
-    box-shadow: 0em -3em 0 0 #cfcfcf, 2em -2em 0 -1em #cfcfcf, 3em 0 0 -1em #cfcfcf, 2em 2em 0 -1em #cfcfcf, 0 3em 0 -1em #cfcfcf, -2em 2em 0 0 #cfcfcf, -3em 0em 0 0 #cfcfcf, -2em -2em 0 0.2em #cfcfcf;
+
+.spinner .rect2 {
+  -webkit-animation-delay: -1.1s;
+  animation-delay: -1.1s;
+}
+
+.spinner .rect3 {
+  -webkit-animation-delay: -1.0s;
+  animation-delay: -1.0s;
+}
+
+.spinner .rect4 {
+  -webkit-animation-delay: -0.9s;
+  animation-delay: -0.9s;
+}
+
+.spinner .rect5 {
+  -webkit-animation-delay: -0.8s;
+  animation-delay: -0.8s;
+}
+
+@-webkit-keyframes sk-stretchdelay {
+  0%, 40%, 100% { -webkit-transform: scaleY(0.4) }  
+  20% { -webkit-transform: scaleY(1.0) }
+}
+
+@keyframes sk-stretchdelay {
+  0%, 40%, 100% { 
+    transform: scaleY(0.4);
+    -webkit-transform: scaleY(0.4);
+  }  20% { 
+    transform: scaleY(1.0);
+    -webkit-transform: scaleY(1.0);
   }
 }

@@ -11,9 +11,6 @@
 				<div class="signup">
 					<form id="signup-form" class="signup-form" method="post" action="/signup" novalidate>
 						<h2 class="title">Sign Up</h2>
-						<a class="btn btn-block btn-social btn-facebook" href="#">
-					   		<span class="fa fa-facebook"></span> Sign up with Facebook
-					  	</a>
 						<label for="username" class="sr-only">Username:</label>
 						<input id="username" class="form-control validate" name="username" type="text" placeholder="Username" autofocus>
 						<label for="email" class="sr-only">Email:</label>

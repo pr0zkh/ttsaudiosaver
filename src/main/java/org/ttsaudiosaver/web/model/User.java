@@ -24,6 +24,9 @@ public class User {
 	
 	@Column(name = "email", nullable = false, unique = true)
 	private String email;
+	
+	@Column(name = "profilePicUrl")
+	private String profilePicUrl;
 
 	public int getUserId() {
 		return userId;
@@ -101,5 +104,13 @@ public class User {
 	public String toString() {
 		return "User [userId=" + userId + ", username=" + username + ", password=" + password + ", email=" + email
 				+ "]";
+	}
+
+	public String getProfilePicUrl() {
+		return profilePicUrl;
+	}
+
+	public void setProfilePicUrl(String profilePicUrl) {
+		this.profilePicUrl = profilePicUrl;
 	}
 }

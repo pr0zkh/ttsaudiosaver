@@ -15,9 +15,11 @@ import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
+import org.ttsaudiosaver.web.interceptor.AuthenticationInterceptor;
 
 @Configuration
 @EnableWebMvc
@@ -49,6 +51,11 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 		resolver.setPrefix(VIEW_RESOLVER_PREFIX);
 		resolver.setSuffix(VIEW_RESLVER_SUFFIX);
 		return resolver;
+	}
+
+	@Override
+	public void addInterceptors(InterceptorRegistry registry) {
+		//registry.addInterceptor(new AuthenticationInterceptor());
 	}
 
 	@Override
