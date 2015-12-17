@@ -2,9 +2,10 @@
 
 <div class=container>
 	<div class="login">
+		<div class="loader">Loading...</div>
 		<form id="login-form" class="login-form" method="post" action="/login" novalidate>
 			<h2 class="title">Log In</h2>
-			<a class="btn btn-block btn-social btn-facebook" href="#">
+			<a class="btn btn-block btn-social btn-facebook" id="fb-login">
 		   		<span class="fa fa-facebook"></span> Sign in with Facebook
 		  	</a>
 			<label for="email" class="sr-only">Email:</label>

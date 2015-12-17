@@ -3,8 +3,13 @@
 <link rel="stylesheet" href="/css/bootstrap-social.css">
 <link rel="stylesheet" href="/css/font-awesome.min.css">
 <link rel="stylesheet" href="/css/styles.css">
+<link rel="stylesheet" href="/css/modal.css">
+<link rel="stylesheet" href="/css/loader.css">
+<link rel="stylesheet" href="/css/fakeLoader.css">
 <script src="/js/jquery-2.1.4.min.js"></script>
 <script src="/js/bootstrap.min.js"></script>
 <script src="/js/tts.js"></script>
 <script src="/js/navigation.js"></script>
+<script src="/js/modal.js"></script>
+<script src="/js/fakeLoader.js"></script>
 <script src="/js/translation.js"></script>

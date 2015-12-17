@@ -1,4 +1,5 @@
 <%@include file="/WEB-INF/view/common/taglibs.jspf" %>
+<div id="fakeLoader"></div>
 
 <nav id="top-nav" class="navbar navbar-default navbar-fixed-top">
 	<div class="container">
