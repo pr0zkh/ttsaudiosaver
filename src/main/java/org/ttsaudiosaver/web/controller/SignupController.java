@@ -2,8 +2,8 @@ package org.ttsaudiosaver.web.controller;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,24 +11,24 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.ttsaudiosaver.web.SessionAttributes;
 import org.ttsaudiosaver.web.model.User;
-import org.ttsaudiosaver.web.model.dao.user.UserDAO;
-import org.ttsaudiosaver.web.service.RegistrationService;
+import org.ttsaudiosaver.web.service.profile.ProfileService;
+import org.ttsaudiosaver.web.service.profile.ProfileService.UserAlreadyExistsException;
 
 @Controller
 public class SignupController {
 	
+	private static final Logger logger = Logger.getLogger(SignupController.class);
+	
 	@Autowired
-	private RegistrationService registrationService;
+	private ProfileService registrationService;
 	
 	@RequestMapping(value = UrlTemplate.SIGN_UP, method = RequestMethod.GET)
 	public String getSignupPage(Model model) {
-		System.out.println("Inside getSignupPage method");
 		return ViewMap.SIGN_UP.getView();
 	}
 	
 	@RequestMapping(value = UrlTemplate.FORGOT_PASSWORD, method = RequestMethod.GET)
 	public String getForgotPasswordPage(Model model) {
-		System.out.println("Inside getForgotPasswordPage method");
 		return ViewMap.FORGOT_PASSWORD.getView();
 	}
 	
@@ -38,14 +38,13 @@ public class SignupController {
 			@RequestParam("username") String username,
 			HttpSession session,
 			Model model) {
-		System.out.println("Inside signup method");
-		User user = new User();
-		user.setUsername(username);
-		user.setPassword(password);
-		user.setEmail(email);
-		user = registrationService.register(user);
-		session.setAttribute(SessionAttributes.USER, user);
-		return "redirect:" + UrlTemplate.INDEX;
+		try {
+			User user = registrationService.register(username, password, email);
+			session.setAttribute(SessionAttributes.USER, user);
+			return "redirect:" + UrlTemplate.INDEX;
+		} catch (UserAlreadyExistsException e) {
+			logger.error("Could not perform registration: " + e.getMessage());
+			return ViewMap.SIGN_UP.getView();
+		}
 	}
-
 }

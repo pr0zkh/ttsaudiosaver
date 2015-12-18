@@ -10,12 +10,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 import org.ttsaudiosaver.web.SessionAttributes;
 import org.ttsaudiosaver.web.model.User;
-import org.ttsaudiosaver.web.service.LoginService;
-import org.ttsaudiosaver.web.service.LoginService.LoginFailedException;
-import org.ttsaudiosaver.web.service.LoginService.UserNotFoundException;
+import org.ttsaudiosaver.web.service.profile.ProfileService;
+import org.ttsaudiosaver.web.service.profile.ProfileService.LoginFailedException;
+import org.ttsaudiosaver.web.service.profile.ProfileService.UserNotFoundException;
 
 @Controller
 public class LoginController {
@@ -23,7 +22,7 @@ public class LoginController {
 	private static final Logger logger = Logger.getLogger(LoginController.class); 
 	
 	@Autowired
-	private LoginService loginService;
+	private ProfileService profileService;
 	
 	@RequestMapping(value = UrlTemplate.LOGIN, method = RequestMethod.GET)
 	public String getLoginPage(Model model) {
@@ -38,7 +37,7 @@ public class LoginController {
 			Model model) {
 		logger.info("Inside login method");
 		try {
-			User user = loginService.login(email, password);
+			User user = profileService.login(email, password);
 			session.setAttribute(SessionAttributes.USER, user);
 			return "redirect:" + UrlTemplate.INDEX;
 		} catch (UserNotFoundException e) {
@@ -51,7 +50,12 @@ public class LoginController {
 	}
 	
 	@RequestMapping(value = UrlTemplate.FACEBOOK_LOGIN, method = RequestMethod.POST)
-	public @ResponseBody String fbLogin() {
+	public @ResponseBody String fbLogin(@RequestParam("username") String username,
+			@RequestParam("email") String email, 
+			@RequestParam("profilePicUrl") String profilePicUrl, 
+			HttpSession session) {
+		User user = profileService.fbLogin(email, username, profilePicUrl);
+		session.setAttribute(SessionAttributes.USER, user);
 		return "success";
 	}
 	
@@ -59,13 +63,5 @@ public class LoginController {
 	public String logout(HttpSession session) {
 		session.removeAttribute(SessionAttributes.USER);
 		return "redirect:" + UrlTemplate.INDEX;
-	}
-
-	public LoginService getLoginService() {
-		return loginService;
-	}
-
-	public void setLoginService(LoginService loginService) {
-		this.loginService = loginService;
 	}
 }

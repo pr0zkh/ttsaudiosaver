@@ -29,6 +29,13 @@ body > .container {
     border-width: 0 0 1px;
 }
 
+.navbar-fixed-top .nav-profile-pic {
+	width: 28px;
+	height: 28px;
+	border: 1px solid #e7e7e7;
+	border-radius: 1px;
+}
+
 .footer {
 	position: absolute;
 	bottom: 0;
@@ -101,6 +108,26 @@ body > .container {
 .lang-selector-msg {
 	margin-left: 170px;
 }
+
+.user-details {
+	margin-top: 15px;
+}
+
+.user-details .content {
+	margin-left: 45px;
+	display: inline-block;
+}
+
+.user-details .profile-pic {
+	border-radius: 3px;
+	overflow: hidden;
+}
+
+.user-details .change-password-form .spinner > div {
+	background-color:#337ab7;
+	border: 1px solid #2e6da4;
+}
+
 .tall {
 	min-height: 2000px;
 }
