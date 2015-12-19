@@ -80,6 +80,7 @@ public class ProfileService {
 		if(passwordEncoder.matches(oldPassword, user.getPassword())) {
 			user.setPassword(passwordEncoder.encode(newPassword));
 			userDAO.updateUser(user);
+			sendChangePasswordEmail(user.getUsername(), user.getEmail());
 			return user;
 		} else {
 			throw new UserUpdateFailedException("User's old password doesn't match to that one that was provided.");
@@ -96,6 +97,15 @@ public class ProfileService {
 				"Hi " + username + "!\n\nThank you for using our service. We generated password for you, here is it: "
 						+ password + "\n\nCheers!");
 		msg.setSubject("Registration details");
+		msg.setRecipient(email);
+		emailService.sendMessage(msg);
+	}
+	
+	private void sendChangePasswordEmail(String username, String email) {
+		SimpleEmailMessage msg = new SimpleEmailMessage();
+		msg.setContent(
+				"Hi " + username + "!\n\nYou have recently changed your password.\nIf you'are not aware of this activity, please, contact our technical support as soon as possible.\n\nCheers!");
+		msg.setSubject("Password change");
 		msg.setRecipient(email);
 		emailService.sendMessage(msg);
 	}
