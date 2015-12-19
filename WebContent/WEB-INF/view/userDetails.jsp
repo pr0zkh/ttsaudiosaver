@@ -42,7 +42,7 @@
 						Profile details
 					</div>
 					<div class="tab-pane" id="change-profile-details" role="tabpanel">
-						Change profile details
+						<jsp:include page="/WEB-INF/view/profile/changeProfileDetails.jsp"/>
 					</div>
 					<div class="tab-pane" id="change-password" role="tabpanel">
 						<jsp:include page="/WEB-INF/view/profile/changePasswordForm.jsp"/>

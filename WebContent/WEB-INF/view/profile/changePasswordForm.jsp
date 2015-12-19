@@ -4,8 +4,8 @@
 	<h1>Change password</h1>
 </div>
 
-<form id="change-password" class="change-password-form">
-	<div class="form-group has-error">
+<form id="change-password" class="change-password-form" novalidate autocomplete="off">
+	<div class="form-group">
 		<input type="password" id="old-pass" class="form-control" placeholder="Old password">
 	</div>
 	<div class="form-group">

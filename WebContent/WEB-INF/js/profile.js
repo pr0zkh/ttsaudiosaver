@@ -29,11 +29,20 @@ TTS.Module.profile = (function() {
 				$(form).removeClass("disabled");
 				$(form).find("input").removeClass("disabled");
 				if(responseObj.status == "success") {
-					console.log("success");
+					$(form).find("input[type=password]").val("");
+					TTS.Module.alert.success("You have successfully updated your password");
 				} else if(responseObj.status == "error") {
-					console.log("error");
+					$(form).find(".form-group").addClass("has-error");
+					$(form).find(".form-group").first().find("input").focus();
+					TTS.Module.alert.error(responseObj.errorMsg);
 				}
 			});
+		});
+		
+		$("form#change-password").find("input[type=password]").on("keydown", function(e) {
+			if($("form#change-password").find(".form-group").hasClass("has-error")){
+				$("form#change-password").find(".form-group").removeClass("has-error");
+			}
 		});
 	}
 	

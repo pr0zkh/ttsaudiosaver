@@ -93,9 +93,9 @@ public class ProfileService {
 	private void sendFbRegistrationEmail(String username, String password, String email) {
 		SimpleEmailMessage msg = new SimpleEmailMessage();
 		msg.setContent(
-				"Hi " + username + "!\n Thank you for using our service. We generated password for you, here is it: "
-						+ password + "\nCheers!");
-		msg.setSubject("TTS: Registration details");
+				"Hi " + username + "!\n\nThank you for using our service. We generated password for you, here is it: "
+						+ password + "\n\nCheers!");
+		msg.setSubject("Registration details");
 		msg.setRecipient(email);
 		emailService.sendMessage(msg);
 	}

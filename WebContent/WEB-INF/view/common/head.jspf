@@ -7,6 +7,7 @@
 <script src="/js/jquery-2.1.4.min.js"></script>
 <script src="/js/bootstrap.min.js"></script>
 <script src="/js/tts.js"></script>
+<script src="/js/alert.js"></script>
 <script src="/js/navigation.js"></script>
 <script src="/js/translation.js"></script>
 <script src="/js/profile.js"></script>
