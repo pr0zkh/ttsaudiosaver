@@ -1,8 +1,11 @@
 package org.ttsaudiosaver.web.service.profile;
 
+import java.util.Arrays;
+
 import javax.annotation.PostConstruct;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -47,12 +50,16 @@ public class ProfileService {
 
 	public User fbLogin(String email, String username, String profilePicUrl) {
 		User user = userDAO.findUserByEmail(email);
+		User fbUser = userDAO.findUserByFbEmail(email);
 		if (user != null) {
 			return user;
+		} else if(fbUser != null) {
+			return fbUser;
 		} else {
 			user = new User();
 			String generatedPassword = generatePassword();
 			user.setEmail(email);
+			user.setFbEmail(email);
 			user.setProfilePicUrl(profilePicUrl);
 			user.setUsername(username);
 			user.setPassword(passwordEncoder.encode(generatedPassword));
@@ -86,6 +93,34 @@ public class ProfileService {
 			throw new UserUpdateFailedException("User's old password doesn't match to that one that was provided.");
 		}
 	}
+	
+	public void restorePassword(String email) throws UserNotFoundException {
+		User user = userDAO.findUserByEmail(email);
+		if(user == null) {
+			throw new UserNotFoundException("Cannot find user with given email");
+		} else {
+			String generatedPassword = generatePassword();
+			user.setPassword(passwordEncoder.encode(generatedPassword));
+			userDAO.updateUser(user);
+			sendRestorePasswordEmail(user.getUsername(), generatedPassword, user.getEmail());
+		}
+	}
+
+	public User updateProfileInfo(User currentUser, String newUsername, String newEmail) throws UserAlreadyExistsException {
+		User user = userDAO.findUserByEmail(newEmail);
+		if(user != null) {
+			throw new UserAlreadyExistsException("Sorry, this email address is already in use");
+		} else {
+			String oldEmail = currentUser.getEmail();
+			currentUser.setEmail(newEmail);
+			currentUser.setUsername(newUsername);
+			userDAO.updateUser(currentUser);
+			if(!oldEmail.equals(currentUser.getEmail())) {
+				sendUpdateProfileDetailsEmail(currentUser.getUsername(), oldEmail, currentUser.getEmail());
+			}
+		}
+		return currentUser;
+	}
 
 	private String generatePassword() {
 		return RandomStringUtils.random(PWD_GEN_LENGTH, PWD_CHARS);
@@ -93,21 +128,52 @@ public class ProfileService {
 
 	private void sendFbRegistrationEmail(String username, String password, String email) {
 		SimpleEmailMessage msg = new SimpleEmailMessage();
-		msg.setContent(
-				"Hi " + username + "!\n\nThank you for using our service. We generated password for you, here is it: "
-						+ password + "\n\nCheers!");
+		String greeting = StringUtils.isNotBlank(username) ? "Hi " + username + "!" : "Hi!";
+		msg.setContent(greeting + "\n\nThank you for using our service. We generated password for you, here's it: "
+						+ password + "\nYou can change it on profile details page.\n\nCheers!");
 		msg.setSubject("Registration details");
 		msg.setRecipient(email);
 		emailService.sendMessage(msg);
 	}
 	
 	private void sendChangePasswordEmail(String username, String email) {
+		String greeting = StringUtils.isNotBlank(username) ? "Hi " + username + "!" : "Hi!";
 		SimpleEmailMessage msg = new SimpleEmailMessage();
-		msg.setContent(
-				"Hi " + username + "!\n\nYou have recently changed your password.\nIf you'are not aware of this activity, please, contact our technical support as soon as possible.\n\nCheers!");
+		msg.setContent(greeting + "\n\nYou have recently changed your password.\n"
+				+ "If you'are not aware of this activity, please, contact our technical support as soon as possible."
+				+ "\n\nCheers!");
 		msg.setSubject("Password change");
 		msg.setRecipient(email);
 		emailService.sendMessage(msg);
+	}
+	
+	private void sendRestorePasswordEmail(String username, String password, String email) {
+		SimpleEmailMessage msg = new SimpleEmailMessage();
+		String greeting = StringUtils.isNotBlank(username) ? "Hi " + username + "!" : "Hi!";
+		msg.setContent(greeting + "\n\nHere's your new password: " + password + "\n"
+						+ "You can change it on profile details page.\n\nCheers!");
+		msg.setSubject("Forgot password?");
+		msg.setRecipient(email);
+		emailService.sendMessage(msg);
+	}
+	
+	private void sendUpdateProfileDetailsEmail(String username, String oldEmail, String newEmail) {
+		SimpleEmailMessage toOld = new SimpleEmailMessage();
+		SimpleEmailMessage toNew = new SimpleEmailMessage();
+		String greeting = StringUtils.isNotBlank(username) ? "Hi " + username + "!" : "Hi!";
+		
+		toOld.setContent(greeting + "\n\nYou've recently changed your email address.\n"
+				+ "Now it's " + newEmail + ". If you're not aware of this activity, please, contact our technical support"
+						+ " as soon as possible.\n\nCheers!");
+		toOld.setSubject("Email address has been changed");
+		toOld.setRecipient(oldEmail);
+		
+		toNew.setContent(greeting + "\n\nYou've successfully changed your email address.\n"
+				+ "Just in case - your old one was " + oldEmail + "\n\nCheers!");
+		toNew.setSubject("Email address has been changed");
+		toNew.setRecipient(newEmail);
+		
+		emailService.sendMessages(Arrays.asList(toOld, toNew));
 	}
 	
 	public class UserNotFoundException extends Exception {

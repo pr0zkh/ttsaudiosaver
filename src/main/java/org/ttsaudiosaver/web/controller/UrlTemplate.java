@@ -10,5 +10,7 @@ public class UrlTemplate {
 	public static final String USER_DETAILS = "/user-details";
 	public static final String FACEBOOK_LOGIN = "/fb-login";
 	public static final String CHANGE_PASSWORD = "/change-password";
+	public static final String RESTORE_PASSWORD = "/restore-password";
+	public static final String UPDATE_PROFILE = "/update-profile";
 
 }

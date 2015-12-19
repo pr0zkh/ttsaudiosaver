@@ -1,12 +1,26 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
-</head>
-<body>
+<%@include file="/WEB-INF/view/common/taglibs.jspf" %>
 
-</body>
-</html>
+<div class="page-header">
+	<h1>Change profile details</h1>
+</div>
+
+<form id="change-profile-details" class="change-password-form" novalidate autocomplete="off">
+	<div class="form-group">
+		<label for="username">Username</label>
+		<input type="text" id="username" class="form-control" placeholder="Username" value="${user.username}">
+	</div>
+	<div class="form-group">
+		<label for="email">Email</label>
+		<input type="text" id="email" class="form-control" placeholder="Email" value="${user.email}">
+	</div>
+	
+	<input id="change-details" name="change-details" class="btn btn-primary" type="submit" value="Change details" />
+	
+	<div class="pull-right spinner hidden">
+		<div class="rect1"></div>
+		<div class="rect2"></div>
+		<div class="rect3"></div>
+		<div class="rect4"></div>
+		<div class="rect5"></div>
+	</div>
+</form>

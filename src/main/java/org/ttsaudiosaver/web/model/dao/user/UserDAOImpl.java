@@ -52,6 +52,14 @@ public class UserDAOImpl extends AbstractDAO implements UserDAO {
 		criteria.add(Restrictions.eq("email", email));
 		return (User) criteria.uniqueResult();
 	}
+	
+	@Override
+	@Transactional
+	public User findUserByFbEmail(String email) {
+		Criteria criteria = getSession().createCriteria(User.class);
+		criteria.add(Restrictions.eq("fbEmail", email));
+		return (User) criteria.uniqueResult();
+	}
 
 	@Override
 	@Transactional

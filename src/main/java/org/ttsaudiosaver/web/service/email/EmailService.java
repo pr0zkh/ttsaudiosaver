@@ -1,7 +1,10 @@
 package org.ttsaudiosaver.web.service.email;
 
+import java.nio.charset.StandardCharsets;
+import java.util.Collection;
 import java.util.Properties;
 
+import javax.annotation.PostConstruct;
 import javax.mail.Authenticator;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -33,10 +36,41 @@ public class EmailService {
 	private static final String USERNAME = "ttsemailservicetest@gmail.com";
 	private static final String PASSWORD = "!.0)7*K>3^|:7{q";
 	
+	private Session session;
+	
+	@PostConstruct
+	private void init() {
+		session = Session.getInstance(getProperties(), getAuthenticator());
+	}
+	
+	private Authenticator getAuthenticator() {
+		return new Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(USERNAME, PASSWORD);
+			}
+		};
+	}
+	
+	private Session getSession() {
+		if(session == null) {
+			init();
+		}
+		return session;
+	}
+	
 	public void sendMessage(EmailMessage message) {
-		Session session = Session.getInstance(getProperties(), getAuthenticator());
 		try {
-			Transport.send(getMessageToSend(message, session));
+			Transport.send(getMessageToSend(message, getSession()));
+		} catch(Exception e) {
+			logger.error("Exception occured while sending an email: " + e.getMessage());
+		}
+	}
+	
+	public void sendMessages(Collection<EmailMessage> messages) {
+		try {
+			for(EmailMessage msg : messages) {
+				Transport.send(getMessageToSend(msg, getSession()));
+			}
 		} catch(Exception e) {
 			logger.error("Exception occured while sending an email: " + e.getMessage());
 		}
@@ -49,14 +83,6 @@ public class EmailService {
 		properties.put(PROP_SMTP_START_TLS_ENABLE, SMTP_START_TLS_ENABLE);
 		properties.put(PROP_SMTP_PORT, SMTP_PORT);
 		return properties;
-	}
-	
-	private Authenticator getAuthenticator() {
-		return new Authenticator() {
-			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication(USERNAME, PASSWORD);
-			}
-		};
 	}
 	
 	private Message getMessageToSend(EmailMessage message, Session session) throws AddressException, MessagingException {

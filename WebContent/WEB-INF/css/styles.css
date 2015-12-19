@@ -16,7 +16,7 @@ body {
 }
 
 body > .container {
-    padding: 60px 15px 0;
+    padding: 60px 15px 60px;
 }
 
 .navbar-default {
@@ -27,13 +27,6 @@ body > .container {
 .navbar-fixed-top {
 	top: 0;
     border-width: 0 0 1px;
-}
-
-.navbar-fixed-top .nav-profile-pic {
-	width: 28px;
-	height: 28px;
-	border: 1px solid #e7e7e7;
-	border-radius: 1px;
 }
 
 .footer {
@@ -113,6 +106,21 @@ body > .container {
 	margin-top: 15px;
 }
 
+.user-details .tab-content .active {
+	display: block;
+	min-width: 400px;
+}
+
+.user-details .tab-content .active .page-header {
+	display: inline-block;
+}
+
+.user-details .tab-content .active form {
+	display: block;
+	width: 300px;
+	margin-bottom: 20px;
+}
+
 .user-details .content {
 	margin-left: 45px;
 	display: inline-block;
@@ -121,6 +129,10 @@ body > .container {
 .user-details .profile-pic {
 	border-radius: 3px;
 	overflow: hidden;
+	background-image: url(/assets/default_profile-pic.png);
+    min-width: 200px;
+    min-height: 200px;
+    margin-bottom: 20px;
 }
 
 .user-details .change-password-form .spinner > div {
@@ -140,6 +152,7 @@ body > .container {
 	margin-bottom: 0;
 }
 
-.tall {
-	min-height: 2000px;
+.forgot-password-form .spinner > div {
+	background-color:#337ab7;
+	border: 1px solid #2e6da4;
 }

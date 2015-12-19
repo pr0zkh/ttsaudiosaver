@@ -4,13 +4,13 @@
 	<div class="container">
 		<div class="navbar-header">
 			<a class="navbar-brand" href="/">
-				TTS audio saver
+				<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
 			</a>
 		</div>
 		<div class="collapse navbar-collapse" id="navbar">
 			<ul class="nav navbar-nav">
 				<li>
-					<a href="#">Home</a>
+					<a href="#">Translate</a>
 				</li>
 				<li>
 					<a href="#">About</a>

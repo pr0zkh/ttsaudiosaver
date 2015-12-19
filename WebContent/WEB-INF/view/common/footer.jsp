@@ -3,7 +3,7 @@
 		<p class="text-muted">This is footer</p>
 	</div>
 	
-	<div id="alert-box" class="modal fade alert-box" role="dialog">
+	<div id="alert-box" class="modal fade alert-box" role="dialog" tabindex="-1">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="alert" role="alert" id="alert-content">

@@ -25,6 +25,9 @@ public class User {
 	@Column(name = "email", nullable = false, unique = true)
 	private String email;
 	
+	@Column(name = "fbEmail", unique = true)
+	private String fbEmail;
+	
 	@Column(name = "profilePicUrl")
 	private String profilePicUrl;
 
@@ -112,5 +115,13 @@ public class User {
 
 	public void setProfilePicUrl(String profilePicUrl) {
 		this.profilePicUrl = profilePicUrl;
+	}
+
+	public String getFbEmail() {
+		return fbEmail;
+	}
+
+	public void setFbEmail(String fbEmail) {
+		this.fbEmail = fbEmail;
 	}
 }

@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.ttsaudiosaver.web.SessionAttributes;
 import org.ttsaudiosaver.web.model.User;
 import org.ttsaudiosaver.web.service.profile.ProfileService;
+import org.ttsaudiosaver.web.service.profile.ProfileService.UserAlreadyExistsException;
+import org.ttsaudiosaver.web.service.profile.ProfileService.UserNotFoundException;
 import org.ttsaudiosaver.web.service.profile.ProfileService.UserUpdateFailedException;
 
 import com.google.gson.JsonObject;
@@ -39,5 +41,34 @@ public class ProfileController {
 			response.addProperty(ERROR_MSG_PARAM, "Your old password and password that was submitted do not match");
 		}
 		return response.toString();
-	} 
+	}
+	
+	@RequestMapping(value = UrlTemplate.RESTORE_PASSWORD, method = RequestMethod.POST)
+	public @ResponseBody String restorePassword(@RequestParam("email") String email) {
+		JsonObject response = new JsonObject();
+		try {
+			profileService.restorePassword(email);
+			response.addProperty(STATUS_RESPONSE_PARAM, "success");
+		} catch (UserNotFoundException e) {
+			response.addProperty(STATUS_RESPONSE_PARAM, "error");
+			response.addProperty(ERROR_MSG_PARAM, e.getMessage());
+		}
+		return response.toString();
+	}
+	
+	@RequestMapping(value = UrlTemplate.UPDATE_PROFILE, method = RequestMethod.POST)
+	public @ResponseBody String updateProfileDetails(@RequestParam("username") String newUsername,
+			@RequestParam("email") String newEmail, HttpSession session) {
+		JsonObject response = new JsonObject();
+		User user = (User)session.getAttribute(SessionAttributes.USER); 
+		try {
+			user = profileService.updateProfileInfo(user, newUsername, newEmail);
+			session.setAttribute(SessionAttributes.USER, user);
+			response.addProperty(STATUS_RESPONSE_PARAM, "success");
+		} catch (UserAlreadyExistsException e) {
+			response.addProperty(STATUS_RESPONSE_PARAM, "error");
+			response.addProperty(ERROR_MSG_PARAM, e.getMessage());
+		}
+		return response.toString();
+	}
 }

@@ -6,16 +6,16 @@ TTS.Module.alert = (function() {
 	var alertBox,
 		alertContent;
 	
-	function success(msg) {
-		showAlert(msg, "success", 3000);
+	function success(msg, focusTo) {
+		showAlert(msg, "success", 3000, focusTo);
 	}
 	
-	function error(msg) {
-		showAlert(msg, "error");
+	function error(msg, focusTo) {
+		showAlert(msg, "error", undefined, focusTo);
 	}
 	
-	function showAlert(msg, type, duration) {
-		initModal();
+	function showAlert(msg, type, duration, focusTo) {
+		initModal(focusTo);
 		switch(type) {
 			case "success":
 				$(alertContent).addClass("alert-success");
@@ -28,7 +28,7 @@ TTS.Module.alert = (function() {
 				break
 		}
 		$(alertContent).text(msg);
-		$(alertBox).modal();
+		$(alertBox).modal({keyboard: true});
 		if(duration) {
 			setTimeout(function() {
 				$(alertBox).modal("hide");
@@ -36,10 +36,16 @@ TTS.Module.alert = (function() {
 		}
 	}
 	
-	function initModal() {
+	function initModal(focusTo) {
 		$(alertContent).removeClass("alert-danger");
 		$(alertContent).removeClass("alert-success");
 		$(alertContent).removeClass("alert-info");
+		
+		$(alertBox).on('hidden.bs.modal', function (){
+			if(focusTo) {
+				$(focusTo).focus();
+			}
+		});
 	}
 	
 	function init() {
