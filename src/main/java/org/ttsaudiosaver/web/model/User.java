@@ -1,10 +1,13 @@
 package org.ttsaudiosaver.web.model;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -30,6 +33,9 @@ public class User {
 	
 	@Column(name = "profilePicUrl")
 	private String profilePicUrl;
+	
+	@OneToMany(mappedBy = "user")
+	private List<CompiledAudio> compiledAudios;
 
 	public int getUserId() {
 		return userId;
@@ -123,5 +129,13 @@ public class User {
 
 	public void setFbEmail(String fbEmail) {
 		this.fbEmail = fbEmail;
+	}
+
+	public List<CompiledAudio> getCompiledAudios() {
+		return compiledAudios;
+	}
+
+	public void setCompiledAudios(List<CompiledAudio> compiledAudios) {
+		this.compiledAudios = compiledAudios;
 	}
 }

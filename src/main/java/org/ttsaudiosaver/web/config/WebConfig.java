@@ -19,7 +19,6 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
-import org.ttsaudiosaver.web.interceptor.AuthenticationInterceptor;
 
 @Configuration
 @EnableWebMvc
@@ -44,6 +43,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 	private static final String HIBERNATE_DIALECT_PROP = "hibernate.dialect";
 	private static final String HIBERNATE_SHOW_SQL_PROP = "hibernate.show_sql";
 	private static final String HIBERNATE_FORMAT_SQL_PROP = "hibernate.format_sql";
+	private static final String HIBERNATE_HBM2DDL_AUTO_PROP = "hibernate.hbm2ddl.auto";
 	
 	@Bean
 	public InternalResourceViewResolver getInternalResourceViewResolver() {
@@ -90,6 +90,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         properties.put(HIBERNATE_DIALECT_PROP, HibernateConfig.DIALECT);
         properties.put(HIBERNATE_SHOW_SQL_PROP, HibernateConfig.SHOW_SQL);
         properties.put(HIBERNATE_FORMAT_SQL_PROP, HibernateConfig.FORMAT_SQL);
+        properties.put(HIBERNATE_HBM2DDL_AUTO_PROP, HibernateConfig.HBM2DDL_UPDATE);
         return properties;        
     }
     

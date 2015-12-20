@@ -12,5 +12,7 @@ public class UrlTemplate {
 	public static final String CHANGE_PASSWORD = "/change-password";
 	public static final String RESTORE_PASSWORD = "/restore-password";
 	public static final String UPDATE_PROFILE = "/update-profile";
+	public static final String TRANSLATE = "/translate";
+	public static final String COMPILE_TRANSLATIONS = "/compile-translations";
 
 }
