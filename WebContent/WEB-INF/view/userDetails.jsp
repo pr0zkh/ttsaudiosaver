@@ -35,7 +35,7 @@
 						<jsp:include page="/WEB-INF/view/profile/changePasswordForm.jsp"/>
 					</div>
 					<div class="tab-pane" id="history" role="tabpanel">
-						History
+						<jsp:include page="/WEB-INF/view/profile/history.jsp"/>
 					</div>
 				</div>
 			</div>

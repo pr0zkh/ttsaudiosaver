@@ -113,6 +113,7 @@ body > .container {
 
 .user-details .tab-content .active .page-header {
 	display: inline-block;
+	margin-top: 0;
 }
 
 .user-details .tab-content .active form {
@@ -140,14 +141,6 @@ body > .container {
 	border: 1px solid #2e6da4;
 }
 
-.user-details div.page-header {
-	margin-top: 0;
-}
-
-.user-details div.top-alert {
-	min-height: 52px;
-}
-
 .alert-box .alert {
 	margin-bottom: 0;
 }
@@ -155,4 +148,8 @@ body > .container {
 .forgot-password-form .spinner > div {
 	background-color:#337ab7;
 	border: 1px solid #2e6da4;
+}
+
+.user-details .tab-content .active .history-content div.audio {
+	padding: 3px;
 }
