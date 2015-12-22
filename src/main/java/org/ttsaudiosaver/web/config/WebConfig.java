@@ -19,6 +19,7 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
+import org.ttsaudiosaver.web.interceptor.AuthenticationInterceptor;
 
 @Configuration
 @EnableWebMvc
@@ -55,7 +56,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		//registry.addInterceptor(new AuthenticationInterceptor());
+		registry.addInterceptor(new AuthenticationInterceptor());
 	}
 
 	@Override
