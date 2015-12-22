@@ -153,3 +153,7 @@ body > .container {
 .user-details .tab-content .active .history-content div.audio {
 	padding: 3px;
 }
+
+div.audio {
+	margin-bottom: 5px;
+}

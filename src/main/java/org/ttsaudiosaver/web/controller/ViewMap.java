@@ -6,7 +6,8 @@ public enum ViewMap {
 	FORGOT_PASSWORD(UrlTemplate.FORGOT_PASSWORD, "forgotPassword"),
 	LOGIN(UrlTemplate.LOGIN, "login"),
 	INDEX(UrlTemplate.INDEX, "index"),
-	USER_DETAILS(UrlTemplate.USER_DETAILS, "userDetails");
+	USER_DETAILS(UrlTemplate.USER_DETAILS, "userDetails"),
+	TRANSLATION_PAIR(UrlTemplate.TRANSLATE, "translation/translationPairRenderer");
 	
 	private String urlTemplate;
 	private String view;

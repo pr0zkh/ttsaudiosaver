@@ -23,7 +23,7 @@ TTS.Module.player = (function() {
 						fixFlash_mp4 = event.jPlayer.flash.used && /m4a|m4v/.test(event.jPlayer.options.supplied);
 						// Setup the player with media.
 						$(this).jPlayer("setMedia", {
-							mp3: "http://localhost:8081/output/ad44a8bc-cac9-4b60-8bbe-98e2c8b5d4ed.mp3"
+							mp3: $(this).data("source")
 						});
 					},
 					timeupdate: function(event) {
