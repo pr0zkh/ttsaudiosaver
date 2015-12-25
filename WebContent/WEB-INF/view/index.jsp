@@ -30,6 +30,7 @@
 						</li>
 					</ul>
 				</div>
+				<h4 id="lang-from"></h4>
 			</div>
 			<div id="lang-to" class="hidden">
 				<div id="translations" class="page-header">
@@ -53,6 +54,7 @@
 						</li>
 					</ul>
 				</div>
+				<h4 id="lang-to"></h4>
 			</div>
 			<div id="main-area" class="hidden">
 				<div id="audio-controls" class="page-header">

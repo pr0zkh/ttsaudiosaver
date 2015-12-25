@@ -1,5 +1,4 @@
 <div id="jquery_jplayer_${param.id}" data-id="${param.id}" class="jp-jplayer" data-source="http://localhost:8081/output/${param.fileId}.mp3">
-	<audio id="jp_audio_0" preload="metadata"></audio>
 </div>
 
 <div id="jp_container_${param.id}">

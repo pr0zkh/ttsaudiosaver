@@ -8,24 +8,25 @@ TTS.Module.translation = (function() {
 		$("#from-lang-selector-dropdown .lang-opt").on("click", function(e) {
 			e.preventDefault();
 			$("div#lang-from").data("lang", $(this).data("lang"));
+			$("h4#lang-from").text($(this).data("lang"));
 			$("#lang-to").fadeIn("slow");
 		});
 		$("#to-lang-selector-dropdown .lang-opt").on("click", function(e) {
 			e.preventDefault();
 			$("div#lang-to").data("lang", $(this).data("lang"));
+			$("h4#lang-to").text($(this).data("lang"));
 			$("#main-area").fadeIn("slow");
 		});
 		$("#btn-translate").on("click", function() {
-			console.log("123");
 			var toTranslate = $("#to-translate-input").val(),
 				translateToLang = $("div#lang-to").data("lang"),
 				translateFromLang = $("div#lang-from").data("lang");
-			console.log(toTranslate);
-			console.log(translateToLang);
-			console.log(translateFromLang);
 			$.post("/translate", {toTranslate: toTranslate, fromLang: translateFromLang, toLang: translateToLang}, function(response) {
-				console.log(response);
+				var player = $("<div/>").html(response).contents().find(".jp-jplayer"),
+					audioSource = player.data("source"),
+					playerId = player.data("id");
 				$("div#audio-container").append(response);
+				TTS.Module.player.initPlayer($("#jquery_jplayer_" + playerId)[0]);
 			});
 		});
 	};
