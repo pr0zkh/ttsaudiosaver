@@ -19,6 +19,11 @@ body > .container {
     padding: 60px 15px 60px;
 }
 
+.modal-open .navbar-fixed-top,
+.modal-open .footer {
+	padding-right: 17px;
+}
+
 .navbar-default {
     background-color: #f5f5f5;
     border-color: #e7e7e7;
@@ -154,6 +159,41 @@ body > .container {
 	padding: 3px;
 }
 
-div.audio {
+.query-controls .input-group-btn .btn {
+	margin-left: 5px;
+}
+
+.translation-controls {
 	margin-bottom: 5px;
+}
+
+.translation-controls .form-control {
+	width: 310px;
+	margin-right: 5px;
+	border-radius: 4px;
+	float: left;
+}
+
+.translation-controls .btn {
+	border-radius: 4px;
+	width: 41px;
+}
+
+.translation {
+    margin-bottom: 15px;
+    padding: 5px;
+    border: 1px solid rgb(204, 204, 204);
+    border-radius: 4px;
+}
+
+.translation .jp-gui {
+	border: none;
+}
+
+.translation .jp-duration {
+	right: 272px;
+}
+
+.audio-wrapper {
+	width: 683px;
 }

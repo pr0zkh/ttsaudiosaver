@@ -29,19 +29,9 @@ TTS.Module.player = (function() {
 					var player = $(this),
 						source = player.data("source");
 					
-					setTimeout(function() {
-						console.log("after 5 seconds");
-						setTimeout(function(){console.log("after 7 seconds")}, 2000);
-					}, 5000);
-					
-//					poll(source, function() {
-//						player.jPlayer("setMedia", {
-//							mp3: source
-//						});
-//					});
-				},
-				loadedmetadata: function(event) {
-					console.log("metadata has been loaded");
+					player.jPlayer("setMedia", {
+						mp3: source
+					});
 				},
 				timeupdate: function(event) {
 					if(!ignore_timeupdate) {
@@ -67,7 +57,8 @@ TTS.Module.player = (function() {
 			myControl = {
 				progress: $(options.cssSelectorAncestor + " .jp-progress-slider"),
 				volume: $(options.cssSelectorAncestor + " .jp-volume-slider"),
-				play: $(options.cssSelectorAncestor + " .jp-play")
+				play: $(options.cssSelectorAncestor + " .jp-play"),
+				pause: $(options.cssSelectorAncestor + " .jp-pause")
 			};
 			
 		// Instance jPlayer
@@ -90,6 +81,7 @@ TTS.Module.player = (function() {
 			step: 0.1,
 			value : 0,
 			slide: function(event, ui) {
+				
 				var sp = playerData.status.seekPercent;
 				if(sp > 0) {
 					// Apply a fix to mp4 formats when the Flash is used.
@@ -101,7 +93,7 @@ TTS.Module.player = (function() {
 						},1000);
 					}
 					// Move the play-head to the value and factor in the seek percent.
-					player.jPlayer("playHead", ui.value * (100 / sp));
+					$(player).jPlayer("playHead", ui.value * (100 / sp));
 				} else {
 					// Create a timeout to reset this slider to zero.
 					setTimeout(function() {
@@ -119,29 +111,14 @@ TTS.Module.player = (function() {
 			step: 0.01,
 			value : $.jPlayer.prototype.options.volume,
 			slide: function(event, ui) {
-				player.jPlayer("option", "muted", false);
-				player.jPlayer("option", "volume", ui.value);
+				$(player).jPlayer("option", "muted", false);
+				$(player).jPlayer("option", "volume", ui.value);
 			}
 		});
 		
 		myControl.play.on("click", function(e) {
 			if($(".jp-state-playing")) {
 				$(".jp-state-playing").find(".jp-pause").click();
-			}
-		});
-	};
-	
-	function poll(src, callback) {
-		$.ajax({
-			url: src,
-			type: "GET",
-			success: function(data) {
-				console.log("success");
-				callback();
-			},
-			error: function(xhr, statux, err) {
-				console.log("error");
-				setTimeout(poll(src, callback), 1000);
 			}
 		});
 	};

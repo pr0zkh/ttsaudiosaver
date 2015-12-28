@@ -60,13 +60,18 @@
 				<div id="audio-controls" class="page-header">
 					<h1>Step 3: add words to translate</h1>
 				</div>
-				<div id="audio-container">
-				</div>
-				<div class="input-group">
-					<input type="text" class="form-control" id="to-translate-input" placeholder="Enter word to translate">
-					<span class="input-group-btn">
-						<button class="btn btn-default" id="btn-translate" type="button">Translate</button>
-					</span>
+				<div class="audio-wrapper">
+					<div id="audio-container">
+					</div>
+					<div class="query-controls">
+						<div class="input-group query-input">
+							<input type="text" class="form-control" id="query-input" placeholder="Enter word to translate">
+							<div class="input-group-btn">
+								<button class="btn btn-default" id="btn-translate" type="button">Translate</button>
+							    <button class="btn btn-default disabled" id="btn-create-audio" type="button">Create audio</button>
+							</div>
+					    </div>
+				    </div>
 			    </div>
 			</div>
 		</div>
