@@ -22,7 +22,7 @@
 }
 .jp-gui li.jp-repeat,
 .jp-gui li.jp-repeat-off {
-	margin-left:344px;
+	margin-left:368px;
 }
 .jp-gui li.jp-mute,
 .jp-gui li.jp-unmute {
@@ -41,7 +41,7 @@ li.jp-unmute,
 	position:absolute;
 	top:28px;
 	left:100px;
-	width:300px;
+	width:332px;
 }
 .jp-progress-slider .ui-slider-handle {
 	cursor:pointer;
@@ -49,7 +49,7 @@ li.jp-unmute,
 .jp-volume-slider {
 	position:absolute;
 	top:31px;
-	left:508px;
+	left:532px;
 	width:100px;
 	height:.4em;
 }
@@ -69,10 +69,10 @@ li.jp-unmute,
 	cursor:default;
 }
 .jp-current-time {
-	left:100px;
+	left:91px;
 }
 .jp-duration {
-	right:266px;
+	right:259px;
 }
 .jp-gui.jp-no-volume .jp-duration {
 	right:70px;

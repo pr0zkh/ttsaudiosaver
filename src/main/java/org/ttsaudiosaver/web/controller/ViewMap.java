@@ -7,7 +7,9 @@ public enum ViewMap {
 	LOGIN(UrlTemplate.LOGIN, "login"),
 	INDEX(UrlTemplate.INDEX, "index"),
 	USER_DETAILS(UrlTemplate.USER_DETAILS, "userDetails"),
-	TRANSLATION_PAIR(UrlTemplate.TRANSLATE, "translation/translationPairRenderer");
+	TRANSLATION_PAIR(UrlTemplate.TRANSLATE, "translation/translationPairRenderer"),
+	UPDATE_TRANSLATION(UrlTemplate.UPDATE_TRANSLATION, "translation/updatedTranslationRenderer"),
+	COMPILE_AUDIO(UrlTemplate.COMPILE_TRANSLATIONS, "translation/compiledTranslationRenderer");
 	
 	private String urlTemplate;
 	private String view;

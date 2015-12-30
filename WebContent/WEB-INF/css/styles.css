@@ -141,22 +141,25 @@ body > .container {
     margin-bottom: 20px;
 }
 
-.user-details .change-password-form .spinner > div {
-	background-color:#337ab7;
-	border: 1px solid #2e6da4;
-}
-
 .alert-box .alert {
 	margin-bottom: 0;
 }
 
-.forgot-password-form .spinner > div {
-	background-color:#337ab7;
-	border: 1px solid #2e6da4;
+#compiled-audio-container .spinner {
+	margin: 0 auto;
+}
+
+#compiled-audio-container .spinner > div {
+	margin: 1px;
+	height: 65px;
 }
 
 .user-details .tab-content .active .history-content div.audio {
 	padding: 3px;
+}
+
+.query-controls {
+	margin-bottom: 10px;
 }
 
 .query-controls .input-group-btn .btn {
@@ -175,8 +178,47 @@ body > .container {
 }
 
 .translation-controls .btn {
-	border-radius: 4px;
-	width: 41px;
+	border: none;
+	color: rgb(204, 204, 204);
+    font-size: 24px;
+    background-color: #FFFFFF;
+    padding: 0;
+    margin-left: 5px;
+    margin-top: 3px;
+    outline: 0;
+}
+
+.translation-controls .btn:hover {
+	color: rgb(85, 85, 85);
+}
+
+.translation-controls .btn:active {
+	outline: 0;
+	box-shadow: none;
+}
+
+.translation-controls .btn-remove:hover, .translation-controls .btn-remove:active {
+	color: rgb(210, 107, 107);
+}
+
+.wait-spinner {
+ 	-webkit-animation-name: spin;
+    -webkit-animation-duration: 1000ms;  
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-timing-function: linear;
+    -moz-animation-name: spin;
+    -moz-animation-duration: 1000ms;
+    -moz-animation-iteration-count: infinite;
+    -moz-animation-timing-function: linear;
+    -ms-animation-name: spin;
+    -ms-animation-duration: 1000ms;
+    -ms-animation-iteration-count: infinite;
+    -ms-animation-timing-function: linear;
+    
+    animation-name: spin;
+    animation-duration: 1000ms;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
 }
 
 .translation {
@@ -190,10 +232,27 @@ body > .container {
 	border: none;
 }
 
-.translation .jp-duration {
-	right: 272px;
+.audio-wrapper {
+	width: 704px;
 }
 
-.audio-wrapper {
-	width: 683px;
+@-ms-keyframes spin {
+    from { -ms-transform: rotate(0deg); }
+    to { -ms-transform: rotate(360deg); }
+}
+@-moz-keyframes spin {
+    from { -moz-transform: rotate(0deg); }
+    to { -moz-transform: rotate(360deg); }
+}
+@-webkit-keyframes spin {
+    from { -webkit-transform: rotate(0deg); }
+    to { -webkit-transform: rotate(360deg); }
+}
+@keyframes spin {
+    from {
+        transform:rotate(0deg);
+    }
+    to {
+        transform:rotate(360deg);
+    }
 }

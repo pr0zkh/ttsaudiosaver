@@ -4,6 +4,7 @@ var TTS = {
 
 TTS.init = function() {
 	if(this.Module) {
+		$.ajaxSettings.traditional = true;
 		$.each(TTS.Module, function(name, funcname){
 			//If the object has an init function then run it
 			funcname = (typeof funcname === "object") ? this['init'] : funcname;

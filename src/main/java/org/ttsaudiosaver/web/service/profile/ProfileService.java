@@ -1,6 +1,8 @@
 package org.ttsaudiosaver.web.service.profile;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 
@@ -10,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.ttsaudiosaver.web.model.CompiledAudio;
 import org.ttsaudiosaver.web.model.User;
 import org.ttsaudiosaver.web.model.dao.user.UserDAO;
 import org.ttsaudiosaver.web.service.email.EmailService;
@@ -119,6 +122,17 @@ public class ProfileService {
 				sendUpdateProfileDetailsEmail(currentUser.getUsername(), oldEmail, currentUser.getEmail());
 			}
 		}
+		return currentUser;
+	}
+	
+	public User addAudio(User currentUser, CompiledAudio audio) {
+		List<CompiledAudio> audios = currentUser.getCompiledAudios();
+		if(audios == null) {
+			audios = new ArrayList<CompiledAudio>();
+		}
+		audios.add(audio);
+		currentUser.setCompiledAudios(audios);
+		userDAO.updateUser(currentUser);
 		return currentUser;
 	}
 

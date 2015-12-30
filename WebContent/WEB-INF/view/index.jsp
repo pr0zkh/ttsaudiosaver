@@ -72,6 +72,8 @@
 							</div>
 					    </div>
 				    </div>
+				    <div id="compiled-audio-container">
+				    </div>
 			    </div>
 			</div>
 		</div>

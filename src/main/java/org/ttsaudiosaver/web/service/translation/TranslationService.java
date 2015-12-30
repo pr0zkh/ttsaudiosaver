@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Arrays;
@@ -30,7 +29,9 @@ public class TranslationService {
 	
 	private static final String TTS_WS_ENDPOINT_URL = "http://localhost:8081/translate_tts";
 	private static final String TTS_COMPILE_WS_ENDPOINT_URL = "http://localhost:8081/compile_tts";
+	private static final String UPDATE_TRANSLATION_WS_ENDPOINT_URL = "http://localhost:8081/update_tts";
 	private static final String TO_TRANSLATE_PARAM = "from";
+	private static final String TRANSLATION_PARAM = "translation";
 	private static final String FROM_LANG = "fromLang";
 	private static final String TO_LANG = "toLang";
 	private static final String TRANSLATION = "translation";
@@ -81,6 +82,27 @@ public class TranslationService {
 			compiledAudioDAO.saveCompiledAudio(compiledAudio);
 		}
 		return compiledAudio;
+	}
+	
+	public TranslationPair updateTranslation(String toTranslate, String translation, String fromLang, String toLang) throws URISyntaxException, IOException {
+		TranslationPair pair = new TranslationPair();
+		URIBuilder uriBuilder = new URIBuilder(UPDATE_TRANSLATION_WS_ENDPOINT_URL);
+		uriBuilder.addParameter(TO_TRANSLATE_PARAM, toTranslate);
+		uriBuilder.addParameter(TRANSLATION_PARAM, translation);
+		uriBuilder.addParameter(FROM_LANG, fromLang);
+		uriBuilder.addParameter(TO_LANG, toLang);
+		URL url = uriBuilder.build().toURL();
+		String response = getResponse(url);
+		if(response != null) {
+			Map<String, String> resultSet = getTranslaitonFromReponse(response);
+			pair.setFileId(resultSet.get(FILE_ID));
+			pair.setToTranslate(toTranslate);
+			pair.setTranslationResult(resultSet.get(TRANSLATION));
+			pair.setTranslateToLang(toLang);
+			pair.setTranslateFromLang(fromLang);
+			translationPairDAO.saveTranslationPair(pair);
+		}
+		return pair;
 	}
 	
 	private String getResponse(URL url) throws IOException {
