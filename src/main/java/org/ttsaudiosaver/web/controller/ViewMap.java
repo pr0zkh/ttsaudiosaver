@@ -9,7 +9,8 @@ public enum ViewMap {
 	USER_DETAILS(UrlTemplate.USER_DETAILS, "userDetails"),
 	TRANSLATION_PAIR(UrlTemplate.TRANSLATE, "translation/translationPairRenderer"),
 	UPDATE_TRANSLATION(UrlTemplate.UPDATE_TRANSLATION, "translation/updatedTranslationRenderer"),
-	COMPILE_AUDIO(UrlTemplate.COMPILE_TRANSLATIONS, "translation/compiledTranslationRenderer");
+	COMPILE_AUDIO(UrlTemplate.COMPILE_TRANSLATIONS, "translation/compiledTranslationRenderer"),
+	TRANSLATION_DETAILS(UrlTemplate.TRANSLATION_DETAILS, "translation/translationDetails");
 	
 	private String urlTemplate;
 	private String view;

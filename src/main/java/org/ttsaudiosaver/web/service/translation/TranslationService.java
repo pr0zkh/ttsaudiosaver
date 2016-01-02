@@ -6,9 +6,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.http.client.utils.URIBuilder;
@@ -75,11 +73,14 @@ public class TranslationService {
 		URL url = uriBuilder.build().toURL();
 		String response = getResponse(url);
 		if(response != null) {
-			List<TranslationPair> pairs = translationPairDAO.findTranslationPairsByFileIds(Arrays.asList(fileIds));
-			compiledAudio.setPairsIncluded(pairs);
 			compiledAudio.setFileId(getCompiledFileId(response));
 			compiledAudio.setName(name);
 			compiledAudioDAO.saveCompiledAudio(compiledAudio);
+			for(String fileId : fileIds) {
+				TranslationPair pair = translationPairDAO.findTranslationPairByFileId(fileId);
+				compiledAudio.addTranslationPair(pair);
+			}
+			compiledAudioDAO.updateCompiledAudio(compiledAudio);
 		}
 		return compiledAudio;
 	}

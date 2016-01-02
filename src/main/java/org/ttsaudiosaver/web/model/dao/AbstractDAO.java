@@ -1,27 +1,13 @@
 package org.ttsaudiosaver.web.model.dao;
 
-import org.apache.log4j.Logger;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.orm.hibernate4.support.HibernateDaoSupport;
 
-public abstract class AbstractDAO {
-	
-	private static final Logger logger = Logger.getLogger(AbstractDAO.class);
+public class AbstractDAO extends HibernateDaoSupport {
 	
 	@Autowired
-	private SessionFactory sessionFactory;
-	
-	protected Session getSession() {
-		logger.info("Inside getSession method: session factory - " + sessionFactory);
-		return sessionFactory.getCurrentSession();
-	}
-	
-	public void persist(Object entity) {
-		getSession().persist(entity);
-	}
-	
-	public void delete(Object entity) {
-		getSession().delete(entity);
+	private void init(SessionFactory sessionFactory) {
+		setSessionFactory(sessionFactory);
 	}
 }

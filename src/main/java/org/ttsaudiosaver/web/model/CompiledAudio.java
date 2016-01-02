@@ -1,15 +1,15 @@
 package org.ttsaudiosaver.web.model;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -28,13 +28,9 @@ public class CompiledAudio {
 	@Column(name = "name", nullable = false)
 	private String name;
 	
-	@OneToMany(mappedBy = "compiledAudio")
-	private List<TranslationPair> pairsIncluded;
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private Set<TranslationPair> pairsIncluded = new HashSet<TranslationPair>();
 	
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "user_id")
-	private User user;
-
 	public int getCompiledAudioId() {
 		return compiledAudioId;
 	}
@@ -59,11 +55,11 @@ public class CompiledAudio {
 		this.name = name;
 	}
 
-	public List<TranslationPair> getPairsIncluded() {
+	public Set<TranslationPair> getPairsIncluded() {
 		return pairsIncluded;
 	}
 
-	public void setPairsIncluded(List<TranslationPair> pairsIncluded) {
-		this.pairsIncluded = pairsIncluded;
+	public void addTranslationPair(TranslationPair translationPair) {
+		pairsIncluded.add(translationPair);
 	}
 }

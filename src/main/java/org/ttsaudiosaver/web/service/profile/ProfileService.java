@@ -1,8 +1,6 @@
 package org.ttsaudiosaver.web.service.profile;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import javax.annotation.PostConstruct;
 
@@ -126,12 +124,7 @@ public class ProfileService {
 	}
 	
 	public User addAudio(User currentUser, CompiledAudio audio) {
-		List<CompiledAudio> audios = currentUser.getCompiledAudios();
-		if(audios == null) {
-			audios = new ArrayList<CompiledAudio>();
-		}
-		audios.add(audio);
-		currentUser.setCompiledAudios(audios);
+		currentUser.addCompiledAudio(audio);
 		userDAO.updateUser(currentUser);
 		return currentUser;
 	}

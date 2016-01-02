@@ -5,13 +5,22 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "translation_pairs")
+@NamedQueries({
+	@NamedQuery(name = "findByFileId", query = "select DISTINCT(pair) from TranslationPair pair where pair.fileId = :fileId")
+})
 public class TranslationPair {
+	
+	public static interface Constants {
+		public static final String QUERY_FIND_BY_FILE_ID = "findByFileId";
+		
+		public static final String PARAM_FILE_ID = "fileId";
+	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,10 +41,6 @@ public class TranslationPair {
 	
 	@Column(name = "translate_to_lang", nullable = false)
 	private String translateToLang;
-	
-	@ManyToOne
-	@JoinColumn(name = "compiled_audio_id")
-	private CompiledAudio compiledAudio;
 
 	public int getTranslationPairId() {
 		return translationPairId;
@@ -83,13 +88,5 @@ public class TranslationPair {
 
 	public void setTranslateToLang(String translateToLang) {
 		this.translateToLang = translateToLang;
-	}
-
-	public CompiledAudio getCompiledAudio() {
-		return compiledAudio;
-	}
-
-	public void setCompiledAudio(CompiledAudio compiledAudio) {
-		this.compiledAudio = compiledAudio;
 	}
 }

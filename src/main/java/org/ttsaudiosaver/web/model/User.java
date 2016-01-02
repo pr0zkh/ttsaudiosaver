@@ -1,19 +1,36 @@
 package org.ttsaudiosaver.web.model;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "users")
+@NamedQueries({
+	@NamedQuery(name = "findUserByEmail", query = "select DISTINCT(usr) from User usr left join fetch usr.compiledAudios where usr.email = :email"),
+	@NamedQuery(name = "findUserByFBEmail", query = "select DISTINCT(usr) from User usr left join fetch usr.compiledAudios where usr.fbEmail = :fbEmail")
+})
 public class User {
+	
+	public static interface Constants {
+		public static final String QUERY_FIND_BY_EMAIL = "findUserByEmail";
+		public static final String QUERY_FIND_BY_FB_EMAIL = "findUserByFBEmail";
+		
+		public static final String PARAM_EMAIL = "email";
+		public static final String PARAM_FB_EMAIL = "fbEmail";
+	}
+
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,8 +52,8 @@ public class User {
 	@Column(name = "profilePicUrl")
 	private String profilePicUrl;
 	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
-	private List<CompiledAudio> compiledAudios;
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private Set<CompiledAudio> compiledAudios = new HashSet<CompiledAudio>();
 
 	public int getUserId() {
 		return userId;
@@ -132,11 +149,11 @@ public class User {
 		this.fbEmail = fbEmail;
 	}
 
-	public List<CompiledAudio> getCompiledAudios() {
+	public Set<CompiledAudio> getCompiledAudios() {
 		return compiledAudios;
 	}
 
-	public void setCompiledAudios(List<CompiledAudio> compiledAudios) {
-		this.compiledAudios = compiledAudios;
+	public void addCompiledAudio(CompiledAudio audio) {
+		compiledAudios.add(audio);
 	}
 }

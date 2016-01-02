@@ -1,3 +1,5 @@
+<%@include file="/WEB-INF/view/common/taglibs.jspf" %>
+
 <div class="audio hidden">
 	<h4>${audio.name}</h4>
 	<jsp:include page="/WEB-INF/view/common/player.jsp">
