@@ -93,7 +93,18 @@ public class TranslationController {
 	}
 	
 	@RequestMapping(value = UrlTemplate.TRANSLATION_DETAILS, method = RequestMethod.GET)
-	public String getTranslationInfoPage(@PathVariable("audioId") String audioId) {
-		return ViewMap.TRANSLATION_DETAILS.getView();
+	public ModelAndView getTranslationInfoPage(@PathVariable("audioId") String audioId, HttpSession session) {
+		ModelAndView model = new ModelAndView();
+		User user = (User)session.getAttribute(SessionAttributes.USER);
+		CompiledAudio audioToUpdate = null;
+		for(CompiledAudio audio : user.getCompiledAudios()) {
+			if(audio.getFileId().equals(audioId)) {
+				audioToUpdate = audio;
+				break;
+			}
+		}
+		model.setViewName(ViewMap.TRANSLATION_DETAILS.getView());
+		model.addObject("audio", audioToUpdate);
+		return model;
 	}
 }

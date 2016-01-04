@@ -1,9 +1,8 @@
 package org.ttsaudiosaver.web.model;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -29,7 +28,7 @@ public class CompiledAudio {
 	private String name;
 	
 	@ManyToMany(fetch = FetchType.LAZY)
-	private Set<TranslationPair> pairsIncluded = new HashSet<TranslationPair>();
+	private List<TranslationPair> pairsIncluded = new ArrayList<TranslationPair>();
 	
 	public int getCompiledAudioId() {
 		return compiledAudioId;
@@ -55,7 +54,7 @@ public class CompiledAudio {
 		this.name = name;
 	}
 
-	public Set<TranslationPair> getPairsIncluded() {
+	public List<TranslationPair> getPairsIncluded() {
 		return pairsIncluded;
 	}
 

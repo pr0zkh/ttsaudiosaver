@@ -1,9 +1,8 @@
 package org.ttsaudiosaver.web.model;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -53,7 +52,7 @@ public class User {
 	private String profilePicUrl;
 	
 	@ManyToMany(fetch = FetchType.LAZY)
-	private Set<CompiledAudio> compiledAudios = new HashSet<CompiledAudio>();
+	private List<CompiledAudio> compiledAudios = new ArrayList<CompiledAudio>();
 
 	public int getUserId() {
 		return userId;
@@ -149,7 +148,7 @@ public class User {
 		this.fbEmail = fbEmail;
 	}
 
-	public Set<CompiledAudio> getCompiledAudios() {
+	public List<CompiledAudio> getCompiledAudios() {
 		return compiledAudios;
 	}
 
