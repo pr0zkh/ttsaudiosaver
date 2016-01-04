@@ -145,11 +145,12 @@ body > .container {
 	margin-bottom: 0;
 }
 
-#compiled-audio-container .spinner {
+.audio-wrapper .spinner {
 	margin: 0 auto;
+    height: 75px;
 }
 
-#compiled-audio-container .spinner > div {
+.audio-wrapper .spinner > div {
 	margin: 1px;
 	height: 65px;
 }

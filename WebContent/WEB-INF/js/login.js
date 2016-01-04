@@ -8,6 +8,7 @@ TTS.Module.login = (function() {
 		$("a#fb-login").on("click", function(e) {
 			var loader = $(this).next(".spinner");
 			loader.removeClass("hidden");
+			
 			FB.login(function(response){
 				if(response.status === "connected") {
 					FB.api("/me", {fields: "email,name", access_token: response.authResponse.accessToken}, function(response) {

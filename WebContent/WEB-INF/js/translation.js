@@ -4,7 +4,8 @@ if(TTS.Module === undefined || typeof TTS.Module !== "object") {
 
 TTS.Module.translation = (function() {
 	
-	var lang = {"en": "English", "ru": "Russian"};
+	var lang = {"en": "English", "ru": "Russian"},
+		loaderBlock = '<div class="spinner hidden"><div class="rect1"></div><div class="rect2"></div><div class="rect3"></div><div class="rect4"></div><div class="rect5"></div></div>';
 	
 	function init() {
 		$("#from-lang-selector-dropdown .lang-opt").on("click", function(e) {
@@ -25,10 +26,24 @@ TTS.Module.translation = (function() {
 			var toTranslate = $("#query-input").val(),
 				translateToLang = $("div#lang-to").data("lang"),
 				translateFromLang = $("div#lang-from").data("lang");
+			$("div#audio-container").append(loaderBlock);
+			$("div#audio-container").find("div.spinner")
+				.css('opacity', 0)
+				.slideDown(400)
+				.animate({ opacity: 1 }, { queue: false, duration: 400 });
 			$.post("/translate", {toTranslate: toTranslate, fromLang: translateFromLang, toLang: translateToLang}, function(response) {
 				var player = $("<div/>").html(response).contents().find(".jp-jplayer"),
 					audioSource = player.data("source"),
 					playerId = player.data("id");
+				$("div#audio-container").find("div.spinner")
+					.css('opacity', 1)
+					.slideUp(400)
+					.animate({ opacity: 0 }, 
+							{ queue: false, duration: 400, complete: function() {
+									$("div#audio-container").find("div.spinner").remove();
+								} 
+							}
+					);
 				$("div#audio-container").append(response);
 				TTS.Module.player.initPlayer($("#jquery_jplayer_" + playerId)[0]);
 				$("html, body").animate({ scrollTop: $(document).height() - $(window).height() + 239 });
@@ -117,55 +132,57 @@ TTS.Module.translation = (function() {
 				fileName = $("#compiled-file-name").val(),
 				translationIds = [];
 			
-			$.each($(".jp-jplayer"), function(index, element) {
+			$("#create-audio-dialog").modal("hide");
+			$(resultBox).append(loaderBlock);
+			
+			if($(resultBox).find(".audio").length){
+				$(resultBox).find(".audio")
+					.css('opacity', 1)
+					.slideUp(400)
+					.animate({ opacity: 0 }, 
+						{queue: false, 
+							duration: 400, 
+							complete: function() {
+								$(resultBox).find(".audio").remove();
+							}
+						}
+					);
+			} 
+			$.each($("#audio-container .jp-jplayer"), function(index, element) {
 				translationIds.push($(element).data("id"));
 			});
 			
-			$("#create-audio-dialog").modal("hide");
-			if($(resultBox).find(".audio").length){
-				$(resultBox)
-					.find(".audio").css('opacity', 1)
-					.slideUp(400)
-					.animate({ opacity: 0 }, 
-							{ queue: false, duration: 400, complete: function() {
-									$(resultBox).empty();
-									$(resultBox).append('<div class="spinner"><div class="rect1"></div><div class="rect2"></div><div class="rect3"></div><div class="rect4"></div><div class="rect5"></div></div>');
-									
-									$.post("/compile-translations", {fileIds: translationIds, name: fileName}, function(response) {
-										var player = $("<div/>").html(response).contents().find(".jp-jplayer"),
-											audioSource = player.data("source"),
-											playerId = player.data("id");
-										$(resultBox).append(response);
-										TTS.Module.player.initPlayer($("#jquery_jplayer_" + playerId)[0]);
-										$("html, body").animate({ scrollTop: $(document).height() - $(window).height() + 239 });
-										$(resultBox).find(".spinner").remove();
-										$(resultBox)
-											.find(".audio")
-											.css('opacity', 0)
-											.slideDown(400)
-											.animate({ opacity: 1 }, { queue: false, duration: 400 });
-									});
-								} 
+			$(resultBox).find("div.spinner")
+				.css('opacity', 0)
+				.slideDown(400)
+				.animate({ opacity: 1 }, 
+						{ queue: false, 
+							duration: 400,
+							complete: function() {
+								$.post("/compile-translations", {fileIds: translationIds, name: fileName}, function(response) {
+									var player = $("<div/>").html(response).contents().find(".jp-jplayer"),
+										audioSource = player.data("source"),
+										playerId = player.data("id");
+									$(resultBox).append(response);
+									TTS.Module.player.initPlayer($("#jquery_jplayer_" + playerId)[0]);
+									$("html, body").animate({ scrollTop: $(document).height() - $(window).height() + 239 });
+									$(resultBox).find("div.spinner")
+										.css('opacity', 1)
+										.slideUp(400)
+										.animate({ opacity: 0 }, 
+											{ queue: false, duration: 400, complete: function() {
+												$(resultBox).find("div.spinner").remove();
+											}
+										});
+									$(resultBox)
+										.find(".audio")
+										.css('opacity', 0)
+										.slideDown(400)
+										.animate({ opacity: 1 }, { queue: false, duration: 400 });
+								});
 							}
-					);
-			} else {
-				$(resultBox).append('<div class="spinner"><div class="rect1"></div><div class="rect2"></div><div class="rect3"></div><div class="rect4"></div><div class="rect5"></div></div>');
-				
-				$.post("/compile-translations", {fileIds: translationIds, name: fileName}, function(response) {
-					var player = $("<div/>").html(response).contents().find(".jp-jplayer"),
-						audioSource = player.data("source"),
-						playerId = player.data("id");
-					$(resultBox).append(response);
-					TTS.Module.player.initPlayer($("#jquery_jplayer_" + playerId)[0]);
-					$("html, body").animate({ scrollTop: $(document).height() - $(window).height() + 239 });
-					$(resultBox).find(".spinner").remove();
-					$(resultBox)
-						.find(".audio")
-						.css('opacity', 0)
-						.slideDown(400)
-						.animate({ opacity: 1 }, { queue: false, duration: 400 });
-				});
-			}
+						}
+				);
 		});
 		
 		function checkCreateAudioAvailability() {
