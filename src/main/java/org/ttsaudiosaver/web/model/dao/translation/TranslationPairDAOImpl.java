@@ -24,7 +24,9 @@ public class TranslationPairDAOImpl extends AbstractDAO implements TranslationPa
 
 	@Override
 	public TranslationPair findTranslationPairById(String translationPairId) {
-		return getHibernateTemplate().get(TranslationPair.class, translationPairId);
+		TranslationPair pair = getHibernateTemplate().get(TranslationPair.class, translationPairId);
+		getHibernateTemplate().initialize(pair.getCompiledAudios());
+		return pair;
 	}
 	
 	@Override
@@ -34,6 +36,7 @@ public class TranslationPairDAOImpl extends AbstractDAO implements TranslationPa
 		if(!pairs.isEmpty()) {
 			pair = (TranslationPair)pairs.get(0);
 		}
+		getHibernateTemplate().initialize(pair.getCompiledAudios());
 		return pair;
 	}
 

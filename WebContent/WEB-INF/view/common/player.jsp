@@ -1,7 +1,7 @@
-<div id="jquery_jplayer_${param.id}" data-id="${param.id}" class="jp-jplayer" data-source="http://localhost:8081/output/${param.filePath}.mp3">
+<div id="jquery_jplayer_${param.fileId}" data-id="${param.id}" data-file-id="${param.fileId}" class="jp-jplayer" data-source="http://localhost:8081/output/${param.filePath}.mp3">
 </div>
 
-<div id="jp_container_${param.id}">
+<div id="jp_container_${param.fileId}">
 	<div class="jp-gui ui-widget ui-widget-content ui-corner-all">
 		<ul>
 			<li class="jp-play ui-state-default ui-corner-all">

@@ -3,12 +3,15 @@ package org.ttsaudiosaver.web.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -51,7 +54,10 @@ public class User {
 	@Column(name = "profilePicUrl")
 	private String profilePicUrl;
 	
-	@ManyToMany(fetch = FetchType.LAZY)
+	@ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REMOVE})
+	@JoinTable(name="user_compiled_audios",
+				joinColumns=@JoinColumn(name="user_id"),
+				inverseJoinColumns=@JoinColumn(name="compiled_audio_id"))
 	private List<CompiledAudio> compiledAudios = new ArrayList<CompiledAudio>();
 
 	public int getUserId() {
@@ -154,5 +160,9 @@ public class User {
 
 	public void addCompiledAudio(CompiledAudio audio) {
 		compiledAudios.add(audio);
+	}
+	
+	public void removeCompiledAudio(CompiledAudio audio) {
+		compiledAudios.remove(audio);
 	}
 }

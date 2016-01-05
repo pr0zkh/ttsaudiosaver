@@ -1,5 +1,8 @@
 package org.ttsaudiosaver.web.controller;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
+
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
@@ -9,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.ttsaudiosaver.web.SessionAttributes;
 import org.ttsaudiosaver.web.model.CompiledAudio;
@@ -16,6 +20,8 @@ import org.ttsaudiosaver.web.model.TranslationPair;
 import org.ttsaudiosaver.web.model.User;
 import org.ttsaudiosaver.web.service.profile.ProfileService;
 import org.ttsaudiosaver.web.service.translation.TranslationService;
+
+import com.google.gson.JsonObject;
 
 @Controller
 public class TranslationController {
@@ -106,5 +112,65 @@ public class TranslationController {
 		model.setViewName(ViewMap.TRANSLATION_DETAILS.getView());
 		model.addObject("audio", audioToUpdate);
 		return model;
+	}
+	
+	@RequestMapping(value = UrlTemplate.COMPILE_AUDIO, method = RequestMethod.POST)
+	public @ResponseBody String compileAudio(@RequestParam("fileIds") String[] fileIds) {
+		JsonObject response = new JsonObject();
+		try {
+			String compiledAudioFileId = translationService.compileAudio(fileIds);
+			response.addProperty(STATUS, "success");
+			response.addProperty(DATA, compiledAudioFileId);
+		} catch (URISyntaxException | IOException e) {
+			response.addProperty(STATUS, "error");
+			response.addProperty(DATA, e.getMessage());
+		}
+		return response.toString();
+	}
+	
+	@RequestMapping(value = UrlTemplate.REMOVE_AUDIO, method = RequestMethod.POST)
+	public @ResponseBody String removeAudio(@RequestParam("id") Integer id, HttpSession session) {
+		JsonObject response = new JsonObject();
+		User user = (User)session.getAttribute(SessionAttributes.USER);
+		try{
+			CompiledAudio audio = null;
+			for(CompiledAudio ca : user.getCompiledAudios()) {
+				if(ca.getCompiledAudioId() == id) {
+					audio = ca;
+					break;
+				}
+			}
+			user.removeCompiledAudio(audio);
+			translationService.removeAudio(audio);
+			response.addProperty(STATUS, "success");
+		} catch (Exception e) {
+			response.addProperty(STATUS, "error");
+		}
+		return response.toString();
+	}
+	
+	@RequestMapping(value = UrlTemplate.UPDATE_EXISTING_AUDIO, method = RequestMethod.POST)
+	public @ResponseBody String updateExistingAudio(@RequestParam("id") Integer id, 
+			@RequestParam("fileId") String fileId, 
+			@RequestParam("fileIds") String[] fileIds, 
+			HttpSession session) {
+		JsonObject response = new JsonObject();
+		User user = (User)session.getAttribute(SessionAttributes.USER);
+		try{
+			CompiledAudio audio = null;
+			for(CompiledAudio ca : user.getCompiledAudios()) {
+				if(ca.getCompiledAudioId() == id) {
+					audio = ca;
+					break;
+				}
+			}
+			user.removeCompiledAudio(audio);
+			CompiledAudio updated = translationService.updateExistingAudio(fileId, audio, fileIds);
+			user.addCompiledAudio(updated);
+			response.addProperty(STATUS, "success");
+		} catch (Exception e) {
+			response.addProperty(STATUS, "error");
+		}
+		return response.toString();
 	}
 }

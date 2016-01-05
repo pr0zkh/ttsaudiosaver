@@ -1,10 +1,18 @@
 package org.ttsaudiosaver.web.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -41,6 +49,15 @@ public class TranslationPair {
 	
 	@Column(name = "translate_to_lang", nullable = false)
 	private String translateToLang;
+	
+	@Column(name = "seq_num")
+	private Integer seqNumber;
+	
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name="compiled_audio_translations",
+					joinColumns=@JoinColumn(name="translation_pair_id"),
+					inverseJoinColumns=@JoinColumn(name="compiled_audio_id"))
+	private List<CompiledAudio> compiledAudios = new ArrayList<CompiledAudio>();
 
 	public int getTranslationPairId() {
 		return translationPairId;
@@ -88,5 +105,82 @@ public class TranslationPair {
 
 	public void setTranslateToLang(String translateToLang) {
 		this.translateToLang = translateToLang;
+	}
+
+	public Integer getSeqNumber() {
+		return seqNumber;
+	}
+
+	public void setSeqNumber(Integer seqNumber) {
+		this.seqNumber = seqNumber;
+	}
+
+	@Override
+	public String toString() {
+		return "TranslationPair [translationPairId=" + translationPairId + ", fileId=" + fileId + ", toTranslate="
+				+ toTranslate + ", translationResult=" + translationResult + ", translateFromLang=" + translateFromLang
+				+ ", translateToLang=" + translateToLang + ", seqNumber=" + seqNumber + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((fileId == null) ? 0 : fileId.hashCode());
+		result = prime * result + ((seqNumber == null) ? 0 : seqNumber.hashCode());
+		result = prime * result + ((toTranslate == null) ? 0 : toTranslate.hashCode());
+		result = prime * result + ((translateFromLang == null) ? 0 : translateFromLang.hashCode());
+		result = prime * result + ((translateToLang == null) ? 0 : translateToLang.hashCode());
+		result = prime * result + translationPairId;
+		result = prime * result + ((translationResult == null) ? 0 : translationResult.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		TranslationPair other = (TranslationPair) obj;
+		if (fileId == null) {
+			if (other.fileId != null)
+				return false;
+		} else if (!fileId.equals(other.fileId))
+			return false;
+		if (seqNumber == null) {
+			if (other.seqNumber != null)
+				return false;
+		} else if (!seqNumber.equals(other.seqNumber))
+			return false;
+		if (toTranslate == null) {
+			if (other.toTranslate != null)
+				return false;
+		} else if (!toTranslate.equals(other.toTranslate))
+			return false;
+		if (translateFromLang == null) {
+			if (other.translateFromLang != null)
+				return false;
+		} else if (!translateFromLang.equals(other.translateFromLang))
+			return false;
+		if (translateToLang == null) {
+			if (other.translateToLang != null)
+				return false;
+		} else if (!translateToLang.equals(other.translateToLang))
+			return false;
+		if (translationPairId != other.translationPairId)
+			return false;
+		if (translationResult == null) {
+			if (other.translationResult != null)
+				return false;
+		} else if (!translationResult.equals(other.translationResult))
+			return false;
+		return true;
+	}
+
+	public List<CompiledAudio> getCompiledAudios() {
+		return compiledAudios;
 	}
 }

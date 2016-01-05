@@ -11,7 +11,7 @@ TTS.Module.player = (function() {
 	};
 	
 	function initPlayer(player) {
-		var id = $(player).data("id"),
+		var id = $(player).data("file-id"),
 			playerData,
 			fixFlash_mp4,// Flag: The m4a and m4v Flash player gives some old currentTime values when changed.
 			fixFlash_mp4_id, // Timeout ID used with fixFlash_mp4

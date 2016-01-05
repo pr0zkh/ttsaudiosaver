@@ -21,9 +21,10 @@ public class CompiledAudioDAOImpl extends AbstractDAO implements CompiledAudioDA
 	}
 
 	@Override
-	public CompiledAudio findCompiledAudioById(String compiledAudioId) {
+	public CompiledAudio findCompiledAudioById(Integer compiledAudioId) {
 		CompiledAudio audio = getHibernateTemplate().get(CompiledAudio.class, compiledAudioId);
 		getHibernateTemplate().initialize(audio.getPairsIncluded());
+		getHibernateTemplate().initialize(audio.getUsers());
 		return audio;
 	}
 

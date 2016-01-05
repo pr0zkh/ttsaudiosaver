@@ -6,7 +6,10 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.http.client.utils.URIBuilder;
@@ -15,8 +18,10 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.ttsaudiosaver.web.model.CompiledAudio;
 import org.ttsaudiosaver.web.model.TranslationPair;
+import org.ttsaudiosaver.web.model.User;
 import org.ttsaudiosaver.web.model.dao.translation.CompiledAudioDAO;
 import org.ttsaudiosaver.web.model.dao.translation.TranslationPairDAO;
+import org.ttsaudiosaver.web.model.dao.user.UserDAO;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -43,6 +48,10 @@ public class TranslationService {
 	@Autowired
 	@Qualifier(value = "translationPairDao")
 	private TranslationPairDAO translationPairDAO;
+	
+	@Autowired
+	@Qualifier(value = "userDao")
+	private UserDAO userDAO;
 	
 	public TranslationPair getTranslation(String toTranslate, String fromLang, String toLang) throws URISyntaxException, IOException {
 		TranslationPair pair = new TranslationPair();
@@ -75,6 +84,7 @@ public class TranslationService {
 		if(response != null) {
 			compiledAudio.setFileId(getCompiledFileId(response));
 			compiledAudio.setName(name);
+			compiledAudio.setCreationDate(new Date());
 			compiledAudioDAO.saveCompiledAudio(compiledAudio);
 			for(String fileId : fileIds) {
 				TranslationPair pair = translationPairDAO.findTranslationPairByFileId(fileId);
@@ -83,6 +93,20 @@ public class TranslationService {
 			compiledAudioDAO.updateCompiledAudio(compiledAudio);
 		}
 		return compiledAudio;
+	}
+	
+	public String compileAudio(String[] fileIds) throws URISyntaxException, IOException {
+		URIBuilder uriBuilder = new URIBuilder(TTS_COMPILE_WS_ENDPOINT_URL);
+		String compiledFileId = null;
+		for(String fileId : fileIds) {
+			uriBuilder.addParameter(FILE_IDS, fileId);
+		}
+		URL url = uriBuilder.build().toURL();
+		String response = getResponse(url);
+		if(response != null) {
+			compiledFileId = getCompiledFileId(response);
+		}
+		return compiledFileId;
 	}
 	
 	public TranslationPair updateTranslation(String toTranslate, String translation, String fromLang, String toLang) throws URISyntaxException, IOException {
@@ -139,5 +163,23 @@ public class TranslationService {
 		JsonElement jelement = new JsonParser().parse(response);
 		 JsonObject  jobject = jelement.getAsJsonObject();
 		 return jobject.get("compiledFileId").getAsString();
+	}
+
+	public void removeAudio(CompiledAudio audio) {
+		CompiledAudio toRemove = compiledAudioDAO.findCompiledAudioById(audio.getCompiledAudioId());
+		compiledAudioDAO.deleteCompiledAudio(toRemove);
+	}
+
+	public CompiledAudio updateExistingAudio(String newFileId, CompiledAudio audio, String[] fileIds) {
+		CompiledAudio toUpdate = compiledAudioDAO.findCompiledAudioById(audio.getCompiledAudioId());
+		List<TranslationPair> pairs = new ArrayList<TranslationPair>();
+		for(String fileId : fileIds) {
+			pairs.add(translationPairDAO.findTranslationPairByFileId(fileId));
+		}
+		toUpdate.setFileId(newFileId);
+		toUpdate.getPairsIncluded().clear();
+		toUpdate.getPairsIncluded().addAll(pairs);
+		compiledAudioDAO.updateCompiledAudio(toUpdate);
+		return toUpdate;
 	}
 }

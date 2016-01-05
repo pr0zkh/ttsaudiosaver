@@ -14,6 +14,9 @@ public class UrlTemplate {
 	public static final String UPDATE_PROFILE = "/update-profile";
 	public static final String TRANSLATE = "/translate";
 	public static final String COMPILE_TRANSLATIONS = "/compile-translations";
+	public static final String COMPILE_AUDIO = "/compile-audio";
+	public static final String REMOVE_AUDIO = "/remove-audio";
+	public static final String UPDATE_EXISTING_AUDIO = "/update-existing-audio";
 	public static final String UPDATE_TRANSLATION = "/update-translation";
 	public static final String TRANSLATION_DETAILS = "/translation-details/{audioId}";
 

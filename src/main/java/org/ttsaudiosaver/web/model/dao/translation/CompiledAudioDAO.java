@@ -6,6 +6,6 @@ public interface CompiledAudioDAO {
 	
 	void saveCompiledAudio(CompiledAudio compiledAudio);
 	void deleteCompiledAudio(CompiledAudio compiledAudio);
-	CompiledAudio findCompiledAudioById(String compiledAudioId);
+	CompiledAudio findCompiledAudioById(Integer compiledAudioId);
 	void updateCompiledAudio(CompiledAudio compiledAudio);
 }

@@ -87,10 +87,21 @@ TTS.Module.translation = (function() {
 				.animate({ opacity: 0 }, 
 						{ queue: false, duration: 400, complete: function() {
 								$(playerContainer).remove();
+								
+								if($("#compiled-translation").length) {
+									var translationIds = [];
+									
+									$.each($("#audio-container .jp-jplayer"), function(index, element) {
+										translationIds.push($(element).data("id"));
+									});
+									
+									updateCompiledAudio(translationIds);
+								} else {
+									checkCreateAudioAvailability();
+								}
 							} 
 						}
 				);
-			checkCreateAudioAvailability();
 		});
 		
 		$(document).on("click", ".btn-update-translation", function(){
@@ -109,22 +120,37 @@ TTS.Module.translation = (function() {
 				.animate({ opacity: 0 }, 
 						{ queue: false, duration: 400, complete: function() {
 								$(audioBox).remove();
+								
+								if($("#compiled-translation").length) {
+									translateToLang = $("div#compiled-translation").data("translated-to");
+									translateFromLang = $("div#compiled-translation").data("translated-from");
+								}
+								
+								$.post("/update-translation", {toTranslate: toTranslate, translation: translation, fromLang: translateFromLang, toLang: translateToLang}, function(response) {
+									var player = $("<div/>").html(response).contents().find(".jp-jplayer"),
+										audioSource = player.data("source"),
+										playerId = player.data("id");
+									$(translationBox).append(response);
+									TTS.Module.player.initPlayer($("#jquery_jplayer_" + playerId)[0]);
+									$("html, body").animate({ scrollTop: $(document).height() - $(window).height() + 100 });
+									$(updateBtn).find("span").removeClass("wait-spinner");
+									$(translationBox).find(".audio")
+										.css('opacity', 0)
+										.slideDown(400)
+										.animate({ opacity: 1 }, { queue: false, duration: 400 });
+									if($("#compiled-translation").length) {
+										var translationIds = [];
+										
+										$.each($("#audio-container .jp-jplayer"), function(index, element) {
+											translationIds.push($(element).data("id"));
+										});
+										console.log(translationIds);
+										updateCompiledAudio(translationIds);
+									}
+								});
 							} 
 						}
 				);
-			$.post("/update-translation", {toTranslate: toTranslate, translation: translation, fromLang: translateFromLang, toLang: translateToLang}, function(response) {
-				var player = $("<div/>").html(response).contents().find(".jp-jplayer"),
-					audioSource = player.data("source"),
-					playerId = player.data("id");
-				$(translationBox).append(response);
-				TTS.Module.player.initPlayer($("#jquery_jplayer_" + playerId)[0]);
-				$("html, body").animate({ scrollTop: $(document).height() - $(window).height() + 100 });
-				$(updateBtn).find("span").removeClass("wait-spinner");
-				$(translationBox).find(".audio")
-					.css('opacity', 0)
-					.slideDown(400)
-					.animate({ opacity: 1 }, { queue: false, duration: 400 });
-			});
 		});
 		
 		$("#create-audio-modal-btn").on("click", function() {
@@ -185,6 +211,107 @@ TTS.Module.translation = (function() {
 				);
 		});
 		
+		$("#btn-add-translation").on("click", function() {
+			var compiledTranslation = $("div#compiled-translation"),
+				translationsContainer = $("div#audio-container"),
+				toLang = $(compiledTranslation).data("translated-to"),
+				fromLang = $(compiledTranslation).data("translated-from"),
+				toTranslate = $("#query-input").val();
+				
+			
+			$(translationsContainer).append(loaderBlock);
+			slideDown($(translationsContainer).find(".spinner"), function() {
+				$.post("/translate", {toTranslate: toTranslate, fromLang: fromLang, toLang: toLang}, function(response) {
+					var player = $("<div/>").html(response).contents().find(".jp-jplayer"),
+						audioSource = player.data("source"),
+						playerId = player.data("id"),
+						translationIds = [];
+					
+					$(translationsContainer).append(response);
+					TTS.Module.player.initPlayer($("#jquery_jplayer_" + playerId)[0]);
+					
+					$.each($("#audio-container .jp-jplayer"), function(index, element) {
+						translationIds.push($(element).data("id"));
+					});
+					
+					updateCompiledAudio(translationIds);
+					
+					slideUp($(translationsContainer).find(".spinner"), function() {
+						$(translationsContainer).find(".spinner").remove();
+						$("html, body").animate({ scrollTop: $(document).height() - $(window).height() + 239 });
+						slideDown($("#jquery_jplayer_" + playerId).closest(".translation"), function(){});
+						$("#query-input").val("").focus();
+					});
+				});
+			});
+		});
+		
+		$("#cancel-update-audio").on("click", function(){
+			$("#cancel-update-audio-dialog").modal();
+		});
+		
+		$("#cancel-update-audio-modal-btn").on("click", function(){
+			window.location.href = "/user-details";
+		});
+		
+		$("#remove-audio").on("click", function(){
+			$("#remove-audio-dialog").modal();
+		});
+		
+		$("#remove-audio-modal-btn").on("click", function(){
+			var audioId = $("#compiled-translation").find(".jp-jplayer").data("id");
+			
+			$.post("/remove-audio", {id: audioId}, function(response){
+				var responseObj = $.parseJSON(response);
+				
+				if(responseObj["status"] == "success") {
+					window.location.href = "/user-details";
+				} else {
+					$("#remove-audio-dialog").modal("hide");
+					TTS.Module.alert.error("Sorry, we're currently unable to process your request. Try again later.");
+				}
+			});
+		});
+		
+		$("#update-audio").on("click", function(){
+			$("#update-audio-dialog").modal();
+		});
+		
+		$("#update-audio-modal-btn").on("click", function(){
+			var audioId = $("#compiled-translation").find(".jp-jplayer").data("id"),
+				fileId = $("#compiled-translation").find(".jp-jplayer").data("file-id"),
+				translationIds = [];
+			
+			$.each($("#audio-container .jp-jplayer"), function(index, element) {
+				translationIds.push($(element).data("id"));
+			});
+			
+			$.post("/update-existing-audio", {id: audioId, fileId: fileId, fileIds: translationIds}, function(response){
+				var responseObj = $.parseJSON(response);
+				
+				if(responseObj["status"] == "success") {
+					window.location.href = "/user-details";
+				} else {
+					$("#remove-audio-dialog").modal("hide");
+					TTS.Module.alert.error("Sorry, we're currently unable to process your request. Try again later.");
+				}
+			});
+		});
+		
+		function updateCompiledAudio(translationIds) {
+			$.post("/compile-audio", {fileIds: translationIds}, function(response) {
+				var responseObj = $.parseJSON(response),
+					compiledFileId = responseObj["data"],
+					player = $("#compiled-translation").find(".jp-jplayer");
+				
+				console.log(compiledFileId);
+				player.jPlayer("setMedia", {
+					mp3: "http://localhost:8081/output/compiled/" + compiledFileId + ".mp3"
+				});
+				player.data("file-id", compiledFileId);
+			});
+		}
+		
 		function checkCreateAudioAvailability() {
 			var createAudioButton = $("#btn-create-audio");
 			
@@ -195,7 +322,31 @@ TTS.Module.translation = (function() {
 					$(createAudioButton).addClass("disabled");
 				}
 			}
-		}
+		};
+		
+		function slideDown(element, callback) {
+			$(element)
+				.css('opacity', 0)
+				.slideDown(400)
+				.animate({ opacity: 1 },
+							{ queue: false, 
+								duration: 400,
+								complete: callback
+							}
+						);
+		};
+		
+		function slideUp(element, callback) {
+			$(element)
+			.css('opacity', 1)
+			.slideUp(400)
+			.animate({ opacity: 0 },
+						{ queue: false, 
+							duration: 400,
+							complete: callback
+						}
+					);
+		};
 	};
 	
 	return {
